@@ -151,6 +151,7 @@ var(Texture) transient color PaletteTransform;	// change fade palette of the tex
 
 var pointer<FTextureInfo*> TextureHandle;		// Cached texture data.
 var transient const editconst uint LastRenderedTime, RenderTag;
+var private int MaxInitResolution; // Maximum resolution allowed for this procedural texture (-1 = no resolution needed, 0 = any resolution allowed).
 
 defaultproperties
 {
@@ -163,4 +164,5 @@ defaultproperties
 	LODSet=LODSET_World
 	UClampMode=UWrap
 	VClampMode=VWrap
+	MaxInitResolution=256
 }

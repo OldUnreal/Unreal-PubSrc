@@ -232,6 +232,11 @@ function string ParseQuery( IpAddr Addr, coerce string QueryStr, int QueryNum, o
 		Query.SendText(Addr, "\\queryport\\"$QueryValue);
 		SendDriverMessage(Addr, "\\serverport\\"$QueryValue);
 	}
+	else if ( QueryType=="remoteport" ) // 227k masterserver, notify of remote port.
+	{
+		if( !IsLocalIpAddr(Addr) )
+			SetRemotePort(int(QueryValue));
+	}
 	return QueryRest;
 }
 
@@ -248,6 +253,17 @@ function bool SendQueryPacket(IpAddr Addr, coerce string SendString, int QueryNu
 	Result = SendText(Addr, SendString);
 
 	return Result;
+}
+
+final function SetRemotePort( int NewPort )
+{
+	local UdpServerQuery Q;
+	
+	foreach AllActors(class'UdpServerQuery',Q)
+	{
+		Q.Default.RemoteGamePort = NewPort;
+		Q.RemoteGamePort = NewPort;
+	}
 }
 
 defaultproperties

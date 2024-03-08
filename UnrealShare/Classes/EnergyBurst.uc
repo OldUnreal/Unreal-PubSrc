@@ -5,10 +5,7 @@ class EnergyBurst extends AnimSpriteEffect
 	transient;
 
 #exec AUDIO IMPORT FILE="Sounds\Flak\expl2.wav" NAME="Explo1" GROUP="General"
-
 #exec TEXTURE IMPORT NAME=ExplosionPal3 FILE=Textures\expal2.pcx GROUP=Effects
-
-#exec OBJ LOAD FILE=Textures\maine.utx PACKAGE=UnrealShare.Maineffect
 
 defaultproperties
 {

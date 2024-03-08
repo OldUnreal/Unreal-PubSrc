@@ -31,4 +31,5 @@ defaultproperties
 	VBits=7
 	ShadowScale=1
 	Softness=1
+	MaxInitResolution=0
 }

@@ -1,7 +1,8 @@
 //=============================================================================
 // Brute.
 //=============================================================================
-class Brute extends ScriptedPawn;
+class Brute extends ScriptedPawn
+	DependsOn(Stinger);
 
 #exec OBJ LOAD FILE=Detail.utx
 
@@ -36,7 +37,6 @@ class Brute extends ScriptedPawn;
 #exec TEXTURE IMPORT NAME=jBrute1 FILE=Models\Brute2C.pcx GROUP=Skins DETAIL=Pock
 #exec TEXTURE IMPORT NAME=Brute3 FILE=Models\Brute3.pcx GROUP="Skins" DETAIL=Pock
 
-#exec OBJ LOAD FILE=Textures\FireEffect18.utx PACKAGE=UnrealShare.Effect18
 #exec MESHMAP SCALE MESHMAP=Brute1 X=0.125 Y=0.125 Z=0.25
 #exec MESHMAP SETTEXTURE MESHMAP=Brute1 NUM=0 TEXTURE=jBrute1
 #exec MESHMAP SETTEXTURE MESHMAP=Brute1 NUM=1 TEXTURE=UnrealShare.Effect18.FireEffect18

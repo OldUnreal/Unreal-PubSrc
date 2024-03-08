@@ -1,7 +1,8 @@
 //=============================================================================
 // Minigun.
 //=============================================================================
-class Minigun extends Weapon;
+class Minigun extends Weapon
+	DependsOn(FlakCannon);
 
 #exec AUDIO IMPORT FILE="..\UnrealShare\Sounds\General\Bulletr2.wav" NAME="Bulletr2"  GROUP="General"
 
@@ -18,7 +19,6 @@ class Minigun extends Weapon;
 #exec MESH SEQUENCE MESH=minigunM SEQ=Cock    STARTFRAME=89  NUMFRAMES=20
 #exec MESH SEQUENCE MESH=minigunM SEQ=Down    STARTFRAME=109 NUMFRAMES=10
 #exec TEXTURE IMPORT NAME=minigun1 FILE=Models\smini.pcx GROUP="Skins"
-#exec OBJ LOAD FILE=..\UnrealShare\Textures\fireeffect13.utx PACKAGE=UNREALI.Effect13
 #exec MESHMAP SCALE MESHMAP=minigunM X=0.0055 Y=0.0055 Z=0.011
 #exec MESHMAP SETTEXTURE MESHMAP=minigunM NUM=1 TEXTURE=minigun1
 #exec MESHMAP SETTEXTURE MESHMAP=minigunM NUM=0 TEXTURE=UnrealI.Effect13.FireEffect13
@@ -43,7 +43,6 @@ class Minigun extends Weapon;
 #exec MESH SEQUENCE MESH=SMini3 SEQ=Cock STARTFRAME=10  NUMFRAMES=1
 #exec MESH SEQUENCE MESH=SMini3 SEQ=Down STARTFRAME=10  NUMFRAMES=1
 #exec TEXTURE IMPORT NAME=Minigun1 FILE=Models\smini.pcx GROUP="Skins"
-#exec OBJ LOAD FILE=..\UnrealShare\Textures\FireEffect18.utx PACKAGE=UNREALShare.Effect18
 #exec MESHMAP SCALE MESHMAP=SMini3 X=0.30 Y=0.30 Z=0.6
 #exec MESHMAP SETTEXTURE MESHMAP=SMini3 NUM=1 TEXTURE=minigun1
 #exec MESHMAP SETTEXTURE MESHMAP=SMini3 NUM=0 TEXTURE=UnrealShare.Effect18.FireEffect18

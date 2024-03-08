@@ -11,7 +11,7 @@ cpptext
 {
 	void PostEditMove();
 	void TransformPermanently( BYTE KeepRotation );
-	UBOOL Encompasses( const FVector& Position );
+	virtual UBOOL Encompasses( const FVector& Position );
 	bool ShouldTrace( DWORD TraceFlags, AActor* SourceActor );
 }
 

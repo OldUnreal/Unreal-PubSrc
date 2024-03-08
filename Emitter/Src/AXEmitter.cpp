@@ -307,6 +307,8 @@ UBOOL ASunLight::ShouldSunlightLit(const INT iZoneNumber) const
 	if (SunlightZoneTag == NAME_None)
 		return Super::ShouldSunlightLit(iZoneNumber);
 	AZoneInfo* OtherZone = XLevel->Model->Zones[iZoneNumber].ZoneActor;
-	return (OtherZone && (OtherZone->Tag == SunlightZoneTag));
+	if (!OtherZone)
+		OtherZone = Level;
+	return (OtherZone->Tag == SunlightZoneTag);
 	unguard;
 }

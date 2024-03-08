@@ -3,9 +3,7 @@
 //=============================================================================
 class SpriteBlueExplo extends SpriteBallExplosion;
 
-#exec OBJ LOAD FILE=Textures\DispExpl.utx PACKAGE=UnrealShare.DispExpl
 #exec TEXTURE IMPORT NAME=BluePal FILE=Textures\expal2a.pcx GROUP=Effects
-
 #exec AUDIO IMPORT FILE="Sounds\Dispersion\dpexplo4.wav" NAME="DispEX1" GROUP="General"
 
 simulated function PostBeginPlay()

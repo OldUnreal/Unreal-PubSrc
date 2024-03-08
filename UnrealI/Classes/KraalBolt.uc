@@ -10,7 +10,6 @@ class KraalBolt extends Projectile;
 #exec MESH SEQUENCE MESH=Krallbm SEQ=All STARTFRAME=0  NUMFRAMES=1
 #exec MESH SEQUENCE MESH=Krallbm SEQ=Still  STARTFRAME=0 NUMFRAMES=1
 #exec MESHMAP SCALE MESHMAP=Krallbm X=0.04 Y=0.04 Z=0.08
-#exec OBJ LOAD FILE=..\UnrealShare\Textures\fireeffect1.utx PACKAGE=UNREALSHARE.Effect1
 #exec MESHMAP SETTEXTURE MESHMAP=Krallbm NUM=0 TEXTURE=UnrealShare.Effect1.FireEffect1a
 #exec MESHMAP SETTEXTURE MESHMAP=Krallbm NUM=1 TEXTURE=UnrealShare.Effect1.FireEffect1
 

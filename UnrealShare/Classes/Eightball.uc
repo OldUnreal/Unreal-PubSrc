@@ -1,7 +1,8 @@
 //=============================================================================
 // Eightball.
 //=============================================================================
-class Eightball extends Weapon;
+class Eightball extends Weapon
+	DependsOn(Stinger);
 
 #exec MESH IMPORT MESH=EightB ANIVFILE=Models\eightb_a.3d DATAFILE=Models\eightb_d.3d X=0 Y=0 Z=0
 #exec MESH ORIGIN MESH=EightB X=0 Y=100 Z=-120 YAW=-64 ROLL=-8
@@ -31,7 +32,6 @@ class Eightball extends Weapon;
 #exec MESH SEQUENCE MESH=8Ball3rd SEQ=Idle  STARTFRAME=0  NUMFRAMES=1
 #exec MESH SEQUENCE MESH=8Ball3rd SEQ=Fire  STARTFRAME=1  NUMFRAMES=9
 #exec TEXTURE IMPORT NAME=JEightB1 FILE=Models\Eightbal.pcx GROUP="Skins"
-#exec OBJ LOAD FILE=Textures\FireEffect18.utx PACKAGE=UnrealShare.Effect18
 #exec MESHMAP SCALE MESHMAP=8Ball3rd X=0.065 Y=0.065 Z=0.13
 #exec MESHMAP SETTEXTURE MESHMAP=8Ball3rd NUM=1 TEXTURE=JEightB1
 #exec MESHMAP SETTEXTURE MESHMAP=8Ball3rd NUM=0 TEXTURE=UnrealShare.Effect18.FireEffect18

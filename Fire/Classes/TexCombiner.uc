@@ -46,4 +46,5 @@ defaultproperties
 	MatVSize=64
 	SoftwareFallback=Texture'DefaultTexture'
 	bStaticFrame=true
+	MaxInitResolution=0
 }

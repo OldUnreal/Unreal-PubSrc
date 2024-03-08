@@ -2,7 +2,13 @@
 // InterpolationPoint.
 //=============================================================================
 class InterpolationPoint extends Keypoint
-			native;
+	native;
+
+cpptext
+{
+	AInterpolationPoint() {}
+	void NoteDuplicate( AActor* Src );
+}
 
 // Sprite.
 #exec Texture Import File=Textures\IntrpPnt.pcx Name=S_Interp Mips=Off Flags=2

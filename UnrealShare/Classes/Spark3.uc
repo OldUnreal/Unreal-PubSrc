@@ -1,13 +1,13 @@
 //=============================================================================
 // Spark3.
 //=============================================================================
-class Spark3 extends SmallSpark;
+class Spark3 extends SmallSpark
+	DependsOn(DispersionAmmo);
 
 #exec MESH IMPORT MESH=Spark3M ANIVFILE=Models\Spark3_a.3d DATAFILE=Models\Spark3_d.3d X=0 Y=0 Z=0
 #exec MESH ORIGIN MESH=Spark3M X=0 Y=0 Z=0 PITCH=-64
 #exec MESH SEQUENCE MESH=Spark3M SEQ=All       STARTFRAME=0   NUMFRAMES=2
 #exec MESH SEQUENCE MESH=Spark3M SEQ=Explosion STARTFRAME=0   NUMFRAMES=2
-#exec  OBJ LOAD FILE=Textures\fireeffect1.utx PACKAGE=UnrealShare.Effect1
 #exec TEXTURE IMPORT NAME=JSmlSpark1 FILE=Models\Spark.pcx GROUP=Skins
 #exec MESHMAP SCALE MESHMAP=Spark3M X=0.06 Y=0.06 Z=0.12
 

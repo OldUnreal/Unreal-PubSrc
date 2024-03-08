@@ -22,8 +22,9 @@ var globalconfig string		GameName;
 var() globalconfig string	LibraryURL,ServerWebsiteURL;
 var string				ServerOSStr;
 var string				LibString;
+var int					LocalGamePort,RemoteGamePort;
 
-var bool bLibsInit, bShownError;
+var bool bLibsInit, bShownError,bIsLanRequest;
 var globalconfig bool		bShowMutators,bAllowGetGameInfoProps,bAllowGetPPProps;
 
 // Initialize.
@@ -33,13 +34,22 @@ function PreBeginPlay()
 	Tag = QueryName;
 
 	// Bind the listen socket
-	if ( !BindPort(Level.Game.GetServerPort(), true) )
+	LocalGamePort = Level.Game.GetServerPort();
+	if( RemoteGamePort==-1 )
+		RemoteGamePort = LocalGamePort; // This variable gets overrided by UdpServerUplink once masterserver has verified the remote port.
+	if ( !BindPort(LocalGamePort, true) )
 	{
 		Log("Port failed to bind.",Class.Name);
 		return;
 	}
 	else Log("Bound to port"@Port$".",Class.Name);
 	ServerOSStr = ConsoleCommand("OS")$" ("$ConsoleCommand("OS BITMODE")$" bit)";
+}
+
+// Chose which game port to advertise, if request came from WAN, then send remote game port.
+final function int GetAdvertisedPort()
+{
+	return (bIsLanRequest ? LocalGamePort : RemoteGamePort);
 }
 
 function PostBeginPlay()
@@ -59,7 +69,9 @@ event ReceivedText( IpAddr Addr, string Text )
 	local string Query;
 	local bool QueryRemaining;
 	local int  QueryNum, PacketNum;
-
+	
+	bIsLanRequest = IsLocalIpAddr(Addr);
+	
 	// Assign this packet a unique value from 1 to 100
 	CurrentQueryNum++;
 	if (CurrentQueryNum > 100)
@@ -273,7 +285,7 @@ function string GetInfo()
 	ResultSet = ResultSet$"\\shortname\\"$Level.Game.GameReplicationInfo.ShortName;
 
 	// The server port.
-	ResultSet = ResultSet$"\\hostport\\"$Level.Game.GetServerPort();
+	ResultSet = ResultSet$"\\hostport\\"$GetAdvertisedPort();
 
 	// The map/level name
 	if ( Level.Title=="" || Level.Title==Level.Default.Title )
@@ -303,6 +315,9 @@ function string GetInfo()
 
 	// The most recent network compatible version.
 	ResultSet = ResultSet$"\\mingamever\\"$Level.MinNetVersion;
+	
+	if( bIsLanRequest )
+		ResultSet = ResultSet$"\\LANServer\\True";
 
 	// List the required libaries.
 	ResultSet = ResultSet$GetLibaries();
@@ -476,4 +491,5 @@ defaultproperties
 	QueryName="MasterUplink"
 	GameName="unreal"
 	bShowMutators=True
+	RemoteGamePort=-1
 }

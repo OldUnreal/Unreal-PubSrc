@@ -1,7 +1,8 @@
 //=============================================================================
 // MiniGunSentry.
 //=============================================================================
-Class MiniGunSentry extends Pickup;
+Class MiniGunSentry extends Pickup
+	DependsOn(Flare);
 
 #exec TEXTURE IMPORT NAME=I_Sentry FILE=Textures\I_Sentry.pcx GROUP="Icons"
 #exec TEXTURE IMPORT NAME=Sentry1 FILE=Models\Sentrytex.pcx GROUP="Skins"
@@ -14,7 +15,6 @@ Class MiniGunSentry extends Pickup;
 #exec MESH SEQUENCE MESH=SentryM SEQ=WarmUp STARTFRAME=6  NUMFRAMES=14
 #exec MESH SEQUENCE MESH=SentryM SEQ=Fire   STARTFRAME=20 NUMFRAMES=4
 #exec MESH SEQUENCE MESH=SentryM SEQ=Down   STARTFRAME=24  NUMFRAMES=21
-#exec OBJ LOAD FILE=Textures\fireeffect8.utx  PACKAGE=UnrealShare.Effect8
 #exec MESHMAP SCALE MESHMAP=SentryM X=0.06 Y=0.06 Z=0.12
 #exec MESHMAP SETTEXTURE MESHMAP=SentryM NUM=1 TEXTURE=Sentry1
 #exec MESHMAP SETTEXTURE MESHMAP=SentryM NUM=0 TEXTURE=FireEffect8

@@ -1,7 +1,8 @@
 //=============================================================================
 // Candle2
 //=============================================================================
-class Candle2 extends Decoration;
+class Candle2 extends Decoration
+	DependsOn(Candle);
 
 #exec TEXTURE IMPORT NAME=JCandl21HD FILE=Models\candl2.pcx GROUP="HD" FLAGS=2
 #exec TEXTURE IMPORT NAME=JCandl21 FILE=Models\candl2_old.pcx GROUP=Skins FLAGS=2 HD=JCandl21HD
@@ -13,7 +14,6 @@ class Candle2 extends Decoration;
 #exec MESH ORIGIN MESH=Candl2 X=30 Y=-105 Z=-40 YAW=64
 #exec MESH SEQUENCE MESH=Candl2 SEQ=All    STARTFRAME=0   NUMFRAMES=1
 #exec MESH SEQUENCE MESH=Candl2 SEQ=Still  STARTFRAME=0   NUMFRAMES=1
-#exec OBJ LOAD FILE=Textures\cflame.utx PACKAGE=UnrealShare.CFLAM
 #exec MESHMAP SCALE MESHMAP=candl2 X=0.03 Y=0.03 Z=0.06
 #exec MESHMAP SETTEXTURE MESHMAP=Candl2 NUM=1 TEXTURE=Jcandl21 TLOD=10
 #exec MESHMAP SETTEXTURE MESHMAP=Candl2 NUM=0 TEXTURE=cflame TLOD=10

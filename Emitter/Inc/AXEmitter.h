@@ -44,6 +44,7 @@
 	FLOAT GetMaxLifeTime() const;
 	void RespawnEmitter();
 	void DrawRbDebug();
+	FLOAT GetParticleFade(const FLOAT TimeScale) const;
 /*-----------------------------------------------------------------------------
 	The End.
 -----------------------------------------------------------------------------*/

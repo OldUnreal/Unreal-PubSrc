@@ -1,8 +1,4 @@
 //=============================================================================
-// TriggeredAmbientSound.
-//=============================================================================
-class TriggeredAmbientSound extends Keypoint;
-
 // Re-plays a sound effect if triggered.  If in state TriggerToggled,
 // the sound is turned off if triggered, and turned on, etc..
 // when triggered again.  In the OnWhileTriggered state, the instigator
@@ -11,6 +7,8 @@ class TriggeredAmbientSound extends Keypoint;
 // start, and does not apply in the OnWhileTriggered state.  A variance
 // can also be set for the timing, so that the replay time can seem
 // more 'real'.
+//=============================================================================
+class TriggeredAmbientSound extends Keypoint;
 
 var() bool  bInitiallyOn;
 var() sound AmbSound;

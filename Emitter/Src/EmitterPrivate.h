@@ -250,6 +250,17 @@ inline UBOOL AXParticleEmitter::HasAliveParticles()
 	return FALSE;
 	unguardobjSlow;
 }
+inline FLOAT AXEmitter::GetParticleFade(const FLOAT TimeScale) const
+{
+	guardSlow(AXEmitter::GetParticleFade);
+	FLOAT Result = FadeInMaxAmount;
+	if (TimeScale < FadeInTime)
+		Result *= (TimeScale / FadeInTime);
+	else if (TimeScale > FadeOutTime)
+		Result *= (1.f - (TimeScale - FadeOutTime) / (1.f - FadeOutTime));
+	return Result;
+	unguardSlow;
+}
 
 #include "EmitterPhysX.h"
 #include "AXTrailParticle.h"

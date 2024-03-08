@@ -18,7 +18,6 @@ class HugeCannon extends Cannon;
 #exec MESH SEQUENCE MESH=HugeCannonM SEQ=FAngle3  STARTFRAME=18  NUMFRAMES=1
 #exec MESH SEQUENCE MESH=HugeCannonM SEQ=FAngle4 STARTFRAME=19  NUMFRAMES=1
 #exec TEXTURE IMPORT NAME=JCannon1 FILE=Models\Cannon.pcx GROUP=Skins
-#exec OBJ LOAD FILE=..\UnrealShare\Textures\fireeffect13.utx PACKAGE=UNREALI.Effect13
 #exec MESHMAP SCALE MESHMAP=HugeCannonM X=0.6 Y=0.6 Z=1.2
 #exec MESHMAP SETTEXTURE MESHMAP=HugeCannonM NUM=0 TEXTURE=UnrealI.Effect13.FireEffect13
 #exec MESHMAP SETTEXTURE MESHMAP=HugeCannonM NUM=1 TEXTURE=JCannon1

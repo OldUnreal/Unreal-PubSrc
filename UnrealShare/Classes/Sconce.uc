@@ -14,10 +14,15 @@ class Sconce extends Decoration;
 #exec MESHMAP SCALE MESHMAP=sconceM X=0.125 Y=0.125 Z=0.25
 #exec MESHMAP SETTEXTURE MESHMAP=sconceM NUM=0 TEXTURE=JSconce1
 
+function EdNoteAddedActor( vector HitLocation, vector HitNormal )
+{
+	SetLocation(HitLocation+HitNormal*CollisionRadius, rotator(HitNormal));
+}
+
 defaultproperties
 {
 	DrawType=DT_Mesh
-	Mesh=LodMesh'UnrealShare.sconceM'
+	Mesh=LodMesh'sconceM'
 	bCollideActors=True
 	bCollideWorld=True
 	bProjTarget=True

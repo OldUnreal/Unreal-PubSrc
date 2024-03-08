@@ -4128,7 +4128,7 @@ ignores SeePlayer, HearNoise, Bump;
 				}
 			}
 
-			Speed2D = FMin(Sqrt(Velocity.X * Velocity.X + Velocity.Y * Velocity.Y), GroundSpeed*1.5f);
+			Speed2D = FMin(VSize2D(Velocity), GroundSpeed*1.5f);
 			//add bobbing when walking
 			if ( !bShowMenu )
 			{

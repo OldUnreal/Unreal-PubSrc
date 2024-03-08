@@ -4,7 +4,6 @@
 class IntroNullHud extends UnrealHUD
 	NoUserCreate;
 
-#exec OBJ LOAD FILE=..\UnrealShare\Textures\menugr.utx PACKAGE=UnrealShare.MenuGfx
 #exec Texture Import File=Textures\Hud\FModLogo.pcx Name=FModLogo Group=Logo Mips=Off Flags=2
 #exec Texture Import File=Textures\Hud\NVIDIA_PhysX_Logo.pcx Name=PhysXLogo Group=Logo Mips=Off Flags=2
 #exec Texture Import File=Textures\Hud\OpenALLogo.pcx Name=OpenALLogo Group=Logo Mips=Off Flags=2

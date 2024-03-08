@@ -276,13 +276,7 @@ bool AXTrailParticle::OverrideMeshRender( FSceneNode* Frame )
 				else
 				{
 					FLOAT LifeScale = T.GetLifeSpanScaleNeq();
-					FLOAT LightScale = LifeScale;
-					if (LightScale < Emitter->FadeInTime)
-						LightScale = LightScale / Emitter->FadeInTime;
-					else if (LightScale > Emitter->FadeOutTime)
-						LightScale = 2.f - LightScale / Emitter->FadeOutTime;
-					else LightScale = 1.f;
-					LightScale = Clamp(LightScale * (Emitter->FadeInMaxAmount * ScaleGlow), 0.f, 1.f);
+					const FLOAT LightScale = Emitter->GetParticleFade(LifeScale) * ScaleGlow;
 					if (Emitter->ParticleColorScale.Num())
 						Color = FPlane(T.Color * GetScalerValueColor(LifeScale, &Emitter->ParticleColorScale(0), Emitter->ParticleColorScale.Num()) * LightScale, LightScale);
 					else Color = FPlane(T.Color * LightScale, LightScale);
@@ -298,13 +292,7 @@ bool AXTrailParticle::OverrideMeshRender( FSceneNode* Frame )
 			{
 				FTrailOffsetPart& NT = Trail(i+1);
 				FLOAT LifeScale = NT.GetLifeSpanScaleNeq();
-				FLOAT LightScale = LifeScale;
-				if (LightScale < Emitter->FadeInTime)
-					LightScale = LightScale / Emitter->FadeInTime;
-				else if (LightScale > Emitter->FadeOutTime)
-					LightScale = 2.f - LightScale / Emitter->FadeOutTime;
-				else LightScale = 1.f;
-				LightScale = Clamp(LightScale * (Emitter->FadeInMaxAmount * ScaleGlow), 0.f, 1.f);
+				const FLOAT LightScale = Emitter->GetParticleFade(LifeScale) * ScaleGlow;
 				if (Emitter->ParticleColorScale.Num())
 					Color = FPlane(NT.Color * GetScalerValueColor(LifeScale, &Emitter->ParticleColorScale(0), Emitter->ParticleColorScale.Num()) * LightScale, LightScale);
 				else Color = FPlane(NT.Color * LightScale, LightScale);
@@ -388,14 +376,8 @@ bool AXTrailParticle::OverrideMeshRender( FSceneNode* Frame )
 					Color = FPlane(0, 0, 0, 0);
 				else
 				{
-					FLOAT LifeScale = T.GetLifeSpanScaleNeq();
-					FLOAT LightScale = LifeScale;
-					if (LightScale < Emitter->FadeInTime)
-						LightScale = LightScale / Emitter->FadeInTime;
-					else if (LightScale > Emitter->FadeOutTime)
-						LightScale = 2.f - LightScale / Emitter->FadeOutTime;
-					else LightScale = 1.f;
-					LightScale *= (Emitter->FadeInMaxAmount * ScaleGlow);
+					const FLOAT LifeScale = T.GetLifeSpanScaleNeq();
+					const FLOAT LightScale = Emitter->GetParticleFade(LifeScale) * ScaleGlow;
 					if (Emitter->ParticleColorScale.Num())
 						Color = FPlane(T.Color * GetScalerValueColor(LifeScale, &Emitter->ParticleColorScale(0), Emitter->ParticleColorScale.Num()) * LightScale, LightScale);
 					else Color = FPlane(T.Color * LightScale, LightScale);
@@ -412,14 +394,8 @@ bool AXTrailParticle::OverrideMeshRender( FSceneNode* Frame )
 			if( i!=Final )
 			{
 				FTrailOffsetPart& NT = Trail(i+1);
-				FLOAT LifeScale = NT.GetLifeSpanScaleNeq();
-				FLOAT LightScale = LifeScale;
-				if (LightScale < Emitter->FadeInTime)
-					LightScale = LightScale / Emitter->FadeInTime;
-				else if (LightScale > Emitter->FadeOutTime)
-					LightScale = 2.f - LightScale / Emitter->FadeOutTime;
-				else LightScale = 1.f;
-				LightScale *= (Emitter->FadeInMaxAmount * ScaleGlow);
+				const FLOAT LifeScale = NT.GetLifeSpanScaleNeq();
+				const FLOAT LightScale = Emitter->GetParticleFade(LifeScale) * ScaleGlow;
 				if(Emitter->ParticleColorScale.Num())
 					Color = FPlane(NT.Color * GetScalerValueColor(LifeScale, &Emitter->ParticleColorScale(0), Emitter->ParticleColorScale.Num()) * LightScale, LightScale);
 				else Color = FPlane(NT.Color * LightScale, LightScale);

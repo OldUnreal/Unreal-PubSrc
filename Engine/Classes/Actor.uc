@@ -92,6 +92,8 @@ var bool				bMeshCurvy;      // Not used anymore.
 // 227: Implemented.
 var(Display) bool       bShadowCast;     // Casts shadows on BSP after rebuild in editor.
 var bool				bCustomDrawActor; // Call DrawActor function when it's this actors turn to render self.
+var(Display) bool		bOnlyRenderCurrentZone; /* Render this terrain only in current zone it resides in (don't draw if the Region.Zone isn't visible).
+	Useful to optimize maps with large scale structural meshes which have a nasty habbit of leaking over to other areas (seen through walls in wireframe mode). */
 
 // Advanced.
 var(Advanced) bool	bOwnerNoSee;	// Everybody but the owner can see this actor.
@@ -177,6 +179,8 @@ var transient bool		bEdSelectionLock;	// 227j: This actor can't be selected in e
 var bool				bTraceHitBoxes;		// 227j: This actor should trace skeletal mesh hitboxes.
 var bool				bTextureAnimOnce;	// 227j: DT_SpriteAnimOnce but for mesh skins.
 var bool				bOnlyDrawWithBase;	// 227k: Only draw this actor along with the base (if Base is none, then it remains invisible).
+var bool				bAllowRootMotionXY; // 227k: Allow skeletal animation root motion along X/Y axis.
+var bool				bAllowRootMotionZ;	// 227k: Allow skeletal animation root motion along Z axis.
 var private bool		bSerializeMeshInst; // Internal: Should serialize mesh instance data.
 var(Advanced) bool		bSpecialBrushActor;	// 227j Editor only: This actor can be deployed as a brush actor.
 var(Advanced) bool		bNetInterpolatePos;	// 227j: This actor should interpolate between position on net updates.
@@ -1680,4 +1684,6 @@ defaultproperties
 	CollisionFlag=COLLISIONFLAG_Actor
 	bBlockZeroExtentTraces=true
 	bBlockNonZeroExtentTraces=true
+	bAllowRootMotionXY=true
+	bAllowRootMotionZ=true
 }

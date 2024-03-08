@@ -10,6 +10,9 @@ struct export ColorModifyEntry
 };
 var() array<ColorModifyEntry> ColorModifiers; // List of colors to alter from source texture.
 var() Texture SourceTexture;
+var() byte SaturationModifier; // Saturation modifier.
+var() byte HueModifier; // Hue offset slider.
+var() byte BrightnessModifier; // Brightness modifier.
 var transient private bool bSourceValid;
 
 native final function RefreshTexture(); // If you modify any parms you need to refresh this texture.
@@ -18,4 +21,7 @@ defaultproperties
 {
 	bParametric=true
 	bFractical=true
+	SaturationModifier=127
+	BrightnessModifier=127
+	MaxInitResolution=-1
 }

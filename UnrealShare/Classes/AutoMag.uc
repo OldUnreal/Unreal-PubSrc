@@ -1,7 +1,8 @@
 //=============================================================================
 // AutoMag.
 //=============================================================================
-class AutoMag extends Weapon;
+class AutoMag extends Weapon
+	DependsOn(Stinger);
 
 // pickup version
 #exec MESH IMPORT MESH=AutoMagPickup ANIVFILE=Models\pislow_a.3d DATAFILE=Models\pislow_d.3d X=0 Y=0 Z=0
@@ -20,7 +21,6 @@ class AutoMag extends Weapon;
 #exec MESH SEQUENCE MESH=auto3rd SEQ=Shot2b  STARTFRAME=1  NUMFRAMES=4 RATE=30.0
 #exec MESH SEQUENCE MESH=auto3rd SEQ=Shot2a  STARTFRAME=1  NUMFRAMES=4 RATE=30.0
 #exec TEXTURE IMPORT NAME=Automa1 FILE=Models\pistol.pcx GROUP="Skins"
-#exec OBJ LOAD FILE=Textures\FireEffect18.utx PACKAGE=UnrealShare.Effect18
 #exec MESHMAP SCALE MESHMAP=auto3rd X=0.02 Y=0.02 Z=0.04
 #exec MESHMAP SETTEXTURE MESHMAP=auto3rd NUM=1 TEXTURE=Automa1
 #exec MESHMAP SETTEXTURE MESHMAP=auto3rd NUM=0 TEXTURE=UnrealShare.Effect18.FireEffect18
@@ -46,7 +46,6 @@ class AutoMag extends Weapon;
 #exec MESH SEQUENCE MESH=AutoMagL SEQ=Twirl   STARTFRAME=140  NUMFRAMES=45
 #exec MESH SEQUENCE MESH=AutoMagL SEQ=T2      STARTFRAME=185  NUMFRAMES=5
 #exec TEXTURE IMPORT NAME=Automa1 FILE=Models\pistol.pcx GROUP="Skins"
-#exec OBJ LOAD FILE=Textures\FireEffect18.utx PACKAGE=UnrealShare.Effect18
 #exec MESHMAP SCALE MESHMAP=AutoMagL X=0.007 Y=0.005 Z=0.01
 #exec MESHMAP SETTEXTURE MESHMAP=AutoMagL NUM=1 TEXTURE=Automa1
 #exec MESHMAP SETTEXTURE MESHMAP=AutoMagL NUM=0 TEXTURE=UnrealShare.Effect18.FireEffect18

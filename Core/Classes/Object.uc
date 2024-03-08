@@ -586,9 +586,9 @@ native(634) static final function Quat AlignQuatWith(Quat A, Quat B);
 // Ceil
 native(635) static final function int Ceil( float f );
 
-native final function vector LerpVector( vector Dest, vector Src, float Alpha ); // Dest * Alpha + Src * (1-Alpha)
-native final function rotator LerpRotation( rotator Dest, rotator Src, float Alpha ); // ^ Same as above but uses shortest rotation.
-native final function rotator SlerpRotation( rotator Dest, rotator Src, float Alpha ); // Will use quaternion for actual shortest rotation.
+native static final function vector LerpVector( vector Dest, vector Src, float Alpha ); // Dest * Alpha + Src * (1-Alpha)
+native static final function rotator LerpRotation( rotator Dest, rotator Src, float Alpha ); // ^ Same as above but uses shortest rotation.
+native static final function rotator SlerpRotation( rotator Dest, rotator Src, float Alpha ); // Will use quaternion for actual shortest rotation.
 
 // InterpCurve operator
 native static final function float InterpCurveEval( out InterpCurve curve, float input );

@@ -1,7 +1,8 @@
 //=============================================================================
 // BruteProjectile.
 //=============================================================================
-class BruteProjectile extends Projectile;
+class BruteProjectile extends Projectile
+	DependsOn(Stinger);
 
 #exec MESH IMPORT MESH=srocket ANIVFILE=Models\srocket_a.3d DATAFILE=Models\srocket_d.3d X=0 Y=0 Z=0
 #exec MESH ORIGIN MESH=srocket X=0 Y=0 Z=-40 YAW=0 ROLL=0 PITCH=-64
@@ -9,7 +10,6 @@ class BruteProjectile extends Projectile;
 #exec MESH SEQUENCE MESH=srocket SEQ=Ignite    STARTFRAME=0   NUMFRAMES=3
 #exec MESH SEQUENCE MESH=srocket SEQ=Flying    STARTFRAME=3   NUMFRAMES=13
 #exec TEXTURE IMPORT NAME=JTeace1 FILE=Models\srocket.pcx
-#exec OBJ LOAD FILE=Textures\FireEffect18.utx PACKAGE=UnrealShare.Effect18
 #exec MESHMAP SCALE MESHMAP=srocket  X=1.0 Y=1.0 Z=2.0
 #exec MESHMAP SETTEXTURE MESHMAP=srocket NUM=1 TEXTURE=JTeace1
 #exec MESHMAP SETTEXTURE MESHMAP=srocket NUM=0 TEXTURE=UnrealShare.Effect18.FireEffect18
@@ -17,8 +17,6 @@ class BruteProjectile extends Projectile;
 #exec AUDIO IMPORT FILE="Sounds\General\8blfly2.wav" NAME="BRocket" GROUP="General"
 #exec AUDIO IMPORT FILE="Sounds\Eightbal\Ignite.wav" NAME="Ignite" GROUP="Eightball"
 #exec AUDIO IMPORT FILE="Sounds\Flak\Explode1.wav" NAME="Explode1" GROUP="Flak"
-
-
 
 var float TimerDelay;
 

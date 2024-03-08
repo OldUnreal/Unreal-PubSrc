@@ -86,8 +86,15 @@ function BuildCurvedStair( int Direction )
 
 		Poly4i( Direction, VertexStart + 0, VertexStart + 1, VertexStart + 3, VertexStart + 2, 'inner' );
 		Poly4i( Direction, VertexStart + 5, VertexStart + 4, VertexStart + 6, VertexStart + 7, 'outer' );
-		Poly4i( Direction, VertexStart + 1, VertexStart + 0, VertexStart + 4, VertexStart + 5, 'stepfront' );
-		Poly4i( Direction, VertexStart + 2, VertexStart + 3, VertexStart + 7, VertexStart + 6, 'stepback' );
+		
+		if( x==0 )
+			Poly4i( Direction, VertexStart + 1, VertexStart + 0, VertexStart + 4, VertexStart + 5, 'stepfront' );
+		else if( !SlopedFloor )
+			Poly4i( Direction, VertexStart + 1, VertexStart + (3-8), VertexStart + (7-8), VertexStart + 5, 'stepfront' );
+		if( x==(NumSteps-2) )
+			Poly4i( Direction, VertexStart + 2, VertexStart + 3, VertexStart + 7, VertexStart + 6, 'stepback' );
+		else if( !SlopedCeiling )
+			Poly4i( Direction, VertexStart + 2, VertexStart + (0+8), VertexStart + (4+8), VertexStart + 6, 'stepback' );
 
 		if ( SlopedCeiling )
 		{

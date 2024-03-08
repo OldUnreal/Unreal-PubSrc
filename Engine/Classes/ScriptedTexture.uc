@@ -87,4 +87,5 @@ defaultproperties
     DrawStyle=1
 	DrawOpacity=255
 	PortalInfo=(FOV=90,RendMap=5,ColorScale=(X=1,Y=1,Z=1,W=1))
+	MaxInitResolution=0
 }

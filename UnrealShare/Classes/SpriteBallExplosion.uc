@@ -5,8 +5,6 @@ class SpriteBallExplosion extends AnimSpriteEffect
 	transient;
 
 #exec TEXTURE IMPORT NAME=ExplosionPal FILE=Textures\exppal.pcx GROUP=Effects
-#exec OBJ LOAD FILE=Textures\MainE.utx PACKAGE=UnrealShare.MainEffect
-
 #exec AUDIO IMPORT FILE="Sounds\Flak\expl2.wav" NAME="Explo1" GROUP="General"
 
 var int ExpCount;

@@ -23,4 +23,5 @@ defaultproperties
 	MatVSize=64
 	Format=TEXF_BGRA8_LM
 	SoftwareFallback=Texture'DefaultTexture'
+	MaxInitResolution=0
 }

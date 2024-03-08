@@ -8,7 +8,6 @@ class DAmmo3 extends DispersionAmmo;
 #exec MESH SEQUENCE MESH=DispM2 SEQ=All STARTFRAME=0  NUMFRAMES=1
 #exec MESH SEQUENCE MESH=DispM2 SEQ=Still  STARTFRAME=0 NUMFRAMES=1
 #exec MESHMAP SCALE MESHMAP=DispM2 X=0.09 Y=0.15 Z=0.08
-#exec  OBJ LOAD FILE=Textures\fireeffect1.utx PACKAGE=UnrealShare.Effect1
 #exec MESHMAP SETTEXTURE MESHMAP=DispM2 NUM=0 TEXTURE=UnrealShare.Effect1.FireEffect1a
 #exec MESHMAP SETTEXTURE MESHMAP=DispM2 NUM=1 TEXTURE=UnrealShare.Effect1.FireEffect1
 

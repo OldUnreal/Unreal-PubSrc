@@ -1,7 +1,8 @@
 //=============================================================================
 // Cannon.
 //=============================================================================
-class Cannon extends Decoration;
+class Cannon extends Decoration
+	DependsOn(FlakCannon);
 
 #exec MESH IMPORT MESH=CannonM ANIVFILE=Models\cannon_a.3d DATAFILE=Models\cannon_d.3d X=0 Y=0 Z=0
 #exec MESH ORIGIN MESH=CannonM X=0 Y=270 Z=0 YAW=-64 ROLL=-64
@@ -18,7 +19,6 @@ class Cannon extends Decoration;
 #exec MESH SEQUENCE MESH=CannonM SEQ=FAngle3  STARTFRAME=18  NUMFRAMES=1
 #exec MESH SEQUENCE MESH=CannonM SEQ=FAngle4 STARTFRAME=19  NUMFRAMES=1
 #exec TEXTURE IMPORT NAME=JCannon1 FILE=Models\cannon.pcx GROUP=Skins DETAIL=Metal
-#exec OBJ LOAD FILE=..\UnrealShare\Textures\fireeffect13.utx PACKAGE=UNREALI.Effect13
 #exec MESHMAP SCALE MESHMAP=CannonM X=0.2 Y=0.2 Z=0.4
 #exec MESHMAP SETTEXTURE MESHMAP=CannonM NUM=0 TEXTURE=UnrealI.Effect13.FireEffect13
 #exec MESHMAP SETTEXTURE MESHMAP=CannonM NUM=1 TEXTURE=JCannon1

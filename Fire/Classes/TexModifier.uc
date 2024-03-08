@@ -26,4 +26,5 @@ function Reset()
 defaultproperties
 {
 	bRealtime=true
+	MaxInitResolution=-1
 }

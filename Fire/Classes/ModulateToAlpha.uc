@@ -11,4 +11,5 @@ defaultproperties
 {
 	bParametric=true
 	bFractical=true
+	MaxInitResolution=-1
 }

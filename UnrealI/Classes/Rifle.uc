@@ -16,7 +16,6 @@ class Rifle extends Weapon;
 #exec MESH SEQUENCE MESH=RifleM SEQ=Down        STARTFRAME=71  NUMFRAMES=15
 #exec MESH SEQUENCE MESH=RifleM SEQ=ScopeDown   STARTFRAME=86  NUMFRAMES=15
 #exec TEXTURE IMPORT NAME=JRifle1 FILE=Models\Rifle.pcx GROUP=Skins
-#exec OBJ LOAD FILE=..\UnrealShare\Textures\FireEffect18.utx PACKAGE=UnrealShare.Effect18
 #exec MESHMAP SCALE MESHMAP=RifleM X=0.005 Y=0.004 Z=0.01
 #exec MESHMAP SETTEXTURE MESHMAP=RifleM NUM=1 TEXTURE=JRifle1
 #exec MESHMAP SETTEXTURE MESHMAP=RifleM NUM=0 TEXTURE=UnrealShare.Effect18.FireEffect18

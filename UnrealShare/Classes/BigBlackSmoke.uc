@@ -3,8 +3,6 @@
 //=============================================================================
 class BigBlackSmoke extends SpriteSmokePuff;
 
-#exec OBJ LOAD FILE=Textures\SmokeBlack.utx PACKAGE=UnrealShare.SmokeBlack
-
 defaultproperties
 {
 	SSprites(0)=Texture'UnrealShare.SmokeBlack.bbs_a00'

@@ -85,6 +85,9 @@ native function string Validate( string ValidationString, string GameName );
 // [227/UT] Get the local machine IP address.
 native final function GetLocalIP( out IpAddr Arg );
 
+// [227k] Check if an IpAddr is part of LAN network.
+native final function bool IsLocalIpAddr( IpAddr InAddr );
+
 // [227k] Send an Udp message through servers TcpIpDriver, returns false if not a server.
 native final function bool SendDriverMessage( IpAddr Arg, string Str );
 

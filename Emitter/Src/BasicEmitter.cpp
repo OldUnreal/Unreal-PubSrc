@@ -872,7 +872,7 @@ void AXEmitter::UpdateParticles(FLOAT Delta, UEmitterRendering* Render)
 		{
 			if (ParticleTextures.Num())
 				A->Texture = ParticleTextures(Min(appFloor(Sc * FLOAT(ParticleTextures.Num())), ParticleTextures.Num() - 1));
-			if (!A->Texture)
+			if (!A->Texture && GIsEditor)
 				A->Texture = Level->DefaultTexture;
 		}
 
@@ -886,11 +886,7 @@ void AXEmitter::UpdateParticles(FLOAT Delta, UEmitterRendering* Render)
 		}
 
 		// Update scale glowing
-		if( Sc<FadeInTime )
-			Sc/=FadeInTime;
-		else if( Sc<FadeOutTime )
-			Sc = 1;
-		else Sc = 1.f-(Sc-FadeOutTime)/(1.f-FadeOutTime);
+		Sc = GetParticleFade(Sc);
 
 		if (FadeStyle != STY_None)
 		{
@@ -906,7 +902,7 @@ void AXEmitter::UpdateParticles(FLOAT Delta, UEmitterRendering* Render)
 			if (DistScale > CullDistanceFadeDist)
 				Sc *= 1.f - (DistScale - CullDistanceFadeDist) / (1.f - CullDistanceFadeDist);
 		}
-		A->ScaleGlow = Clamp(Sc*FadeInMaxAmount,0.f,2.f);
+		A->ScaleGlow = Clamp(Sc, 0.f, 2.f);
 
 		// Handle trail.
 		if (A->LatentActor)

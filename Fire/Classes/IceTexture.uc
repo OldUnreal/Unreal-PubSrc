@@ -50,4 +50,5 @@ var transient       int			ForceRefresh;
 
 defaultproperties
 {
+	MaxInitResolution=0
 }

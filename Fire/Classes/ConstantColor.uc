@@ -18,4 +18,5 @@ defaultproperties
 	VSize=1
 	UClamp=1
 	VClamp=1
+	MaxInitResolution=-1
 }

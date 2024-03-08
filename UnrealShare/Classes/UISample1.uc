@@ -1,7 +1,5 @@
 class UISample1 extends UIParticleTest;
 
-#exec obj load file=..\Textures\GenFX.utx package=GenFX
-
 defaultproperties
 {
 	Particle_Main(0)=(bDefineSpeedAsVector=True,BaseSpeed=(X=100.000000,Y=-50.000000,Z=-120.000000),SpeedVariance=40.000000,ParticleSpeed=15.000000)

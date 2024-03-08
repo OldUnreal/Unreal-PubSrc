@@ -32,7 +32,6 @@ class Stinger extends Weapon;
 #exec MESH SEQUENCE MESH=Stinger3rd SEQ=Still  STARTFRAME=0  NUMFRAMES=1
 #exec MESH SEQUENCE MESH=Stinger3rd SEQ=FireOne  STARTFRAME=1  NUMFRAMES=5
 #exec TEXTURE IMPORT NAME=JSting2 FILE=Models\sting3.pcx GROUP="Skins"
-#exec OBJ LOAD FILE=Textures\FireEffect18.utx PACKAGE=UnrealShare.Effect18
 #exec MESHMAP SCALE MESHMAP=Stinger3rd X=0.035 Y=0.035 Z=0.07
 #exec MESHMAP SETTEXTURE MESHMAP=Stinger3rd NUM=1 TEXTURE=JSting2
 #exec MESHMAP SETTEXTURE MESHMAP=Stinger3rd NUM=0 TEXTURE=UnrealShare.Effect18.FireEffect18

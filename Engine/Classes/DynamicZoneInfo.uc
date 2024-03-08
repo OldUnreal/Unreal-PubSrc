@@ -18,7 +18,7 @@ var() ZoneInfo MatchOnlyZone; // Only return this result when that actor is with
 var() bool bUseRelativeToRotation; // Result checks should be done relative to rotation.
 var bool bScriptEvent; // Call script event before actually applying this zone.
 var transient bool bUpdateTouchers; // Force to update zone touchers next tick (auto-resets to false after its done).
-var transient plane BoundingSphere; // Bounding sphere encompassing this volume.
+var transient const plane BoundingSphere; // Bounding sphere encompassing this volume.
 
 simulated function PostBeginPlay()
 {

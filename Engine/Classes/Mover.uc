@@ -94,14 +94,14 @@ var(MoverSounds) sound      MoveAmbientSound; // Optional ambient sound when mov
 
 //-----------------------------------------------------------------------------
 // Internal.
-var vector       KeyPos[8];
-var rotator      KeyRot[8];
+var vector       KeyPos[16];
+var rotator      KeyRot[16];
 var vector       BasePos, OldPos, OldPrePivot, SavedPos;
 var rotator      BaseRot, OldRot, SavedRot;
 var transient const array<int> NotifyLightMaps;
 var StaticLightData StaticLightD;
 var transient private Mover DynBspNext, FlushNext;
-var Actor StuckedActor; // Mover will ignore this actor and attempt to push it out.
+var Actor StuckActor; // Mover will ignore this actor and attempt to push it out.
 var transient private int RenderLeaf;
 var transient private bool bDynBSPDirty;
 
@@ -344,7 +344,7 @@ function bool AtKeyFrame( byte Num )
 simulated function OnMirrorMode()
 {
 	local int i;
-	
+
 	Super.OnMirrorMode();
 	BasePos.Y *= -1.f;
 	BaseRot.Yaw = -BaseRot.Yaw;
@@ -406,7 +406,7 @@ final function StopMovement()
 	SimOldRotRoll = Rotation.Roll;
 	SimInterpolate.X = 100 * PhysAlpha;
 	SimInterpolate.Y = -1.f;
-	
+
 	SetPhysics(PHYS_None);
 	bInterpolating = false;
 }
@@ -592,7 +592,7 @@ function PostBeginPlay()
 		else
 		{
 			SetLocation(Location + vect(0,0,20000)); // temp since still in bsp
-			RemoteRole = Role_DumbProxy; //Allow clients to see the location update.		
+			RemoteRole = Role_DumbProxy; //Allow clients to see the location update.
 		}
 		SetCollision(false, false, false);
 		Tag = '';
@@ -630,12 +630,12 @@ function PostBeginPlay()
 					}
 			}
 		}
-		
+
 		// Setup for pre 227j clients.
 		ServerUpdate++;
 		RealPosition = Location;
 		RealRotation = Rotation;
-		
+
 		if( RemoteRole==Role_DumbProxy )
 			NetUpdateFrequency = 100.f;
 	}
@@ -671,7 +671,7 @@ function MakeGroupReturn()
 function bool EncroachingOn( actor Other )
 {
 	local Pawn P;
-	
+
 	if ( Other.IsA('Carcass') || Other.IsA('Decoration') )
 	{
 		Other.TakeDamage(10000, None, Other.Location, vect(0,0,0), 'Crushed');
@@ -797,7 +797,7 @@ function bool ShouldRestrictMoverRetriggering()
 event ActorBecameStuck( Actor Other )
 {
 	if( MoverEncroachType!=ME_IgnoreWhenEncroach )
-		StuckedActor = Other;
+		StuckActor = Other;
 }
 
 //-----------------------------------------------------------------------------
@@ -962,7 +962,7 @@ state() TriggerControl
 				bDelaying = false;
 		}
 	}
-	
+
 	function BeginState()
 	{
 		numTriggerEvents = 0;
@@ -1059,7 +1059,7 @@ state() TriggerPound
 			}
 		}
 	}
-	
+
 	function BeginState()
 	{
 		numTriggerEvents = 0;
@@ -1098,7 +1098,7 @@ Ignores UnTrigger,Trigger,Reset;
 	function DoOpen()
 	{
 		local byte i;
-		
+
 		if( bOpening )
 		{
 			i = KeyNum + 1;
@@ -1126,7 +1126,7 @@ Ignores UnTrigger,Trigger,Reset;
 			OtherTime = 1.f;
 		bOpening = true;
 	}
-	
+
 	function MakeGroupStop()
 	{
 		// Stop moving immediately.
@@ -1378,7 +1378,6 @@ defaultproperties
 	NetPriority=7
 	bAlwaysRelevant=true
 	RemoteRole=ROLE_SimulatedProxy
-	bUseGoodCollision=True
 	CollisionFlag=COLLISIONFLAG_Movers
 	NetUpdateFrequency=2
 	bNotifyPositionUpdate=true

@@ -67,6 +67,7 @@ defaultproperties
 	bBlockRigidBodyPhys=true
 	bSimpleCollision=true
 	bUseMeshCollision=true
+	bOnlyRenderCurrentZone=true
 	bHidden=false
 	SizeX=64
 	SizeY=64

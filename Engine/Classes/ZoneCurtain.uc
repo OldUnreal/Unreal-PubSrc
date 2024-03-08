@@ -35,4 +35,5 @@ defaultproperties
 	PortalColor=(A=255)
 	BackMaxDistance=1000
 	BackPortalColor=(R=255,G=255,B=255,A=255)
+	MaxInitResolution=-1
 }
