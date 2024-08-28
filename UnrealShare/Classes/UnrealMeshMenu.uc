@@ -16,19 +16,24 @@ var transient const array<string> PlayerClasses;
 
 function PostBeginPlay()
 {
+	local int i;
+
 	Super.PostBeginPlay();
 	Manager.GetMeshList(Managers);
 	PlayerClassNum = Max(Manager.MeshList.Find(Value,string(CurPlayerClass)),0);
 	
-	// Swap places with localizations.
-	HelpMessage[7] = Default.HelpMessage[8];
-	HelpMessage[8] = Default.HelpMessage[9];
-	HelpMessage[9] = Default.HelpMessage[7];
+	// Remove password selection.
+	for( i=5; i<ArrayCount(HelpMessage)-1; ++i )
+		HelpMessage[i] = Default.HelpMessage[i+1];
+
+	// Move 'Start game' after mutator selection.
+	HelpMessage[6] = Default.HelpMessage[8];
+	HelpMessage[7] = Default.HelpMessage[9];
+	HelpMessage[8] = Default.HelpMessage[7];
 }
 
 function FindSkin(int Dir)
 {
-	local int i;
 	local bool bOldFace;
 	
 	bOldFace = bEnableFaceSelection;
@@ -40,25 +45,26 @@ function FindSkin(int Dir)
 			if( selection>=4 )
 				++selection;
 			HelpMessage[4] = Class'UnrealPlayerMenu'.Default.HelpMessage[4];
-			for( i=5; i<7; ++i )
-				HelpMessage[i] = Default.HelpMessage[i-1];
+			HelpMessage[5] = Default.HelpMessage[4];
+			HelpMessage[6] = Default.HelpMessage[6];
 			
-			// Swap places with localizations.
-			HelpMessage[8] = Default.HelpMessage[8];
-			HelpMessage[9] = Default.HelpMessage[9];
-			HelpMessage[10] = Default.HelpMessage[7];
+			// Move 'Start game' after mutator selection.
+			HelpMessage[7] = Default.HelpMessage[8];
+			HelpMessage[8] = Default.HelpMessage[9];
+			HelpMessage[9] = Default.HelpMessage[7];
 		}
 		else
 		{
 			if( selection>=4 )
 				--selection;
-			for( i=4; i<7; ++i )
-				HelpMessage[i] = Default.HelpMessage[i];
 			
-			// Swap places with localizations.
-			HelpMessage[7] = Default.HelpMessage[8];
-			HelpMessage[8] = Default.HelpMessage[9];
-			HelpMessage[9] = Default.HelpMessage[7];
+			HelpMessage[4] = Default.HelpMessage[4];
+			HelpMessage[5] = Default.HelpMessage[6];
+			
+			// Move 'Start game' after mutator selection.
+			HelpMessage[6] = Default.HelpMessage[8];
+			HelpMessage[7] = Default.HelpMessage[9];
+			HelpMessage[8] = Default.HelpMessage[7];
 		}
 	}
 }
@@ -115,16 +121,16 @@ function bool ProcessSelection()
 	if( bEnableFaceSelection && i>=4 )
 		--i;
 
-	if ( i==6 || i==7 )
+	if ( i==5 || i==6 )
 		ProcessLeft();
-	else if ( i == 8 )
+	else if ( i == 7 )
 	{
 		ChildMenu = spawn(class'UnrealMutatorMenu', RealOwner);
 		HUD(RealOwner).MainMenu = ChildMenu;
 		ChildMenu.ParentMenu = self;
 		ChildMenu.PlayerOwner = PlayerOwner;
 	}
-	else if ( i == 9 )
+	else if ( i == 8 )
 	{
 		SetOwner(RealOwner);
 		bExitAllMenus = true;
@@ -175,11 +181,9 @@ function bool ProcessLeft()
 		SelectPlayerClass(-1);
 		break;
 	case 5:
-		break;
-	case 6:
 		bPlayingSpectate = !bPlayingSpectate;
 		break;
-	case 7:
+	case 6:
 		bUseMutators = !bUseMutators;
 		bConfigChanged = true;
 		break;
@@ -209,11 +213,9 @@ function bool ProcessRight()
 		SelectPlayerClass(1);
 		break;
 	case 5:
-		break;
-	case 6:
 		bPlayingSpectate = !bPlayingSpectate;
 		break;
-	case 7:
+	case 6:
 		bUseMutators = !bUseMutators;
 		bConfigChanged = true;
 		break;
@@ -321,22 +323,24 @@ function DrawMenu(canvas Canvas)
 		for ( i=1; i<4; i++ )
 			MenuList[i] = Default.MenuList[i];
 		MenuList[4] = Class'UnrealPlayerMenu'.Default.MenuList[4];
-		for ( i=5; i<8; i++ )
-			MenuList[i] = Default.MenuList[i-1];
+		MenuList[5] = Default.MenuList[4];
+		MenuList[6] = Default.MenuList[6];
 
-		// Swap places with localizations.
-		MenuList[8] = Default.MenuList[8];
-		MenuList[9] = Default.MenuList[9];
-		MenuList[10] = Default.MenuList[7];
-	}
-	else
-	{
-		for ( i=1; i<7; i++ )
-			MenuList[i] = Default.MenuList[i];
 		// Swap places with localizations.
 		MenuList[7] = Default.MenuList[8];
 		MenuList[8] = Default.MenuList[9];
 		MenuList[9] = Default.MenuList[7];
+	}
+	else
+	{
+		for ( i=1; i<5; i++ )
+			MenuList[i] = Default.MenuList[i];
+		MenuList[5] = Default.MenuList[6];
+		
+		// Swap places with localizations.
+		MenuList[6] = Default.MenuList[8];
+		MenuList[7] = Default.MenuList[9];
+		MenuList[8] = Default.MenuList[7];
 	}
 	DrawFadeList(Canvas, Spacing, StartX, StartY);
 
@@ -353,7 +357,7 @@ function DrawMenu(canvas Canvas)
 	else MenuList[i++] = "None";
 	
 	MenuList[i++] = Manager.MeshList.Size() ? Manager.MeshList[PlayerClassNum].Desc : "None";
-	MenuList[i++] = "";
+	//MenuList[i++] = ""; <- Obsolete password selection.
 	MenuList[i++] = bPlayingSpectate ? YesString : NoString;
 	MenuList[i++] = bUseMutators ? YesString : NoString;
 	MenuList[i++] = "";
@@ -369,16 +373,16 @@ function DrawMenu(canvas Canvas)
 
 defaultproperties
 {
-	Selection=9
-	MenuLength=9
+	Selection=8
+	MenuLength=8
 	HelpMessage(4)="Change your class using the left and right arrow keys."
-	HelpMessage(5)="To enter with an adminpassword or gamepassword, launch the server Browser, right click a server and select 'Join with password'."
+	//HelpMessage(5)="To enter with an adminpassword or gamepassword, launch the server Browser, right click a server and select 'Join with password'."
 	HelpMessage(6)="Should spectate the match instead of playing."
 	HelpMessage(7)="Press enter to start game."
 	HelpMessage(8)="Should use mutators with this game?"
 	HelpMessage(9)="Select which mutators to use with this game."
 	MenuList(4)="Class:"
-	MenuList(5)="Passwords are now entered from the Unreal Server browser."
+	//MenuList(5)="Passwords are now entered from the Unreal Server browser."
 	MenuList(6)="Spectate:"
 	MenuList(7)="Start Game"
 	MenuList(8)="Mutators:"

@@ -1,0 +1,15 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(1966,5): warning : The referenced project '..\Core\Src\Core.vcxproj' does not exist.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(1966,5): warning : The referenced project '..\Editor\Src\Editor.vcxproj' does not exist.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(1966,5): warning : The referenced project '..\Engine\Src\Engine.vcxproj' does not exist.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(1966,5): warning : The referenced project '..\Fire\Src\Fire.vcxproj' does not exist.
+  SwFMOD.cpp
+  SwFMODCanvas.cpp
+  SwFMODDebug.cpp
+  SwFMODGeometry.cpp
+  SwFMODPlay.cpp
+  SwFMODRegister.cpp
+  SwFMODToStr.cpp
+  SwFMODUpdate.cpp
+     Creating library ..\..\Build\Win32Debug ASAN\SwFMOD.lib and object ..\..\Build\Win32Debug ASAN\SwFMOD.exp
+LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  SwFMOD.vcxproj -> C:\Src\Unreal\System\SwFMOD.dll

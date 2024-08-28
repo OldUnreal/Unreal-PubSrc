@@ -82,8 +82,8 @@ function Initfor(actor Other)
 	Mesh = Other.Mesh;
 	Skin = Other.Skin;
 	texture = Other.Texture;
-	for ( i=0; i<4; i++ )
-		Multiskins[i] = Other.MultiSkins[i];
+	for ( i=0; i<ArrayCount(MultiSkins); i++ )
+		MultiSkins[i] = Other.MultiSkins[i];
 	Fatness = Other.Fatness;
 	DrawScale = Other.DrawScale;
 	Style=Other.Style;

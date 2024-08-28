@@ -1,8 +1,7 @@
 //=============================================================================
 // FlashLightBeam.
 //=============================================================================
-class FlashLightBeam extends Light
-	NoUserCreate;
+class FlashLightBeam extends Light;
 
 function BeginPlay()
 {

@@ -157,7 +157,6 @@ var(Movement) bool		bFixedRotationDir; // Fixed direction of rotation (if combin
 var(Movement) bool		bRotateToDesired;  // Rotate to DesiredRotation.
 var           bool		bInterpolating;    // Performing interpolating.
 var const bool			bJustTeleported;   // Used by engine physics - not valid for scripts.
-var const bool			bNotifyPositionUpdate; // Call C++ callback when this Actor was moved.
 
 // 227 Variables
 //=============================================================================
@@ -1636,6 +1635,13 @@ event ShadowModeChange();
 // Level started with Y-axis mirror mode.
 // This event is called BEFORE GameInfo.InitGame and anything else!
 simulated event OnMirrorMode();
+
+// Callback when about to perform a root motion while playing a skeletal animation.
+simulated event SkeletalRootMotion( vector Delta, float DeltaTime )
+{
+	// Velocity = Delta / DeltaTime; <- Alternative method with velocity.
+	MoveSmooth(Delta);
+}
 
 defaultproperties
 {

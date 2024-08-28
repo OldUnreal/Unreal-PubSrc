@@ -36,7 +36,8 @@ cpptext
 	void InitPhysics(PX_SceneBase* Scene);
 	void ExitPhysics();
 	void Serialize( FArchive& Ar );
-	void TraceRepulsors();
+	void TraceRepulsors(FLOAT Delta);
+	void ShutDown();
 }
 
 defaultproperties

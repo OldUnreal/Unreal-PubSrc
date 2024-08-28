@@ -273,16 +273,7 @@ function DoubleClickRow(int Row)
 		Root.Console.CloseUWindow();
 	}
 }
-function JoinWithPassword( string ServerAddress, string Pass )
-{
-	local UBrowserJoinPW W;
 
-	GetPlayerOwner().ClientTravel("unreal://"$ServerAddress$"?Password="$Pass, TRAVEL_Absolute, false);
-	W = UBrowserJoinPW(GetParent(class'UBrowserJoinPW'));
-	if ( W!=None )
-		W.Close();
-	Root.Console.CloseUWindow();
-}
 function MouseLeaveColumn(UWindowGridColumn Column)
 {
 	ToolTip("");
@@ -534,19 +525,7 @@ function PasswordJoinMenu(UBrowserServerList List)
 	if ( SelectedServer==None || !List.ValidateClientDLLs(Self) )
 		Return;
 
-	PWWindow = UBrowserJoinPW(Root.FindChildWindow(class'UBrowserJoinPW'));
-
-	if (Server == None) return;
-
-	if ( PWWindow==None)
-	{
-		PWWindow = UBrowserJoinPW(Root.CreateWindow(class'UBrowserJoinPW',10,40,295,80));
-		PWWindow.BringToFront();
-	}
-	else
-	{
-		PWWindow.BringToFront();
-	}
+	PWWindow = UBrowserJoinPW(Root.CreateWindow(class'UBrowserJoinPW',10,40,295,80,,true));
 	PWWindow.WindowTitle = "Join with password - "$List.HostName;
 	PWWindow.EditArea.Grid = Self;
 	PWWindow.EditArea.JoiningServerInfo = SelectedServer;

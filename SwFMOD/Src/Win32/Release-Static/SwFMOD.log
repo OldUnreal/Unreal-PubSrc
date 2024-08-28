@@ -1,0 +1,8 @@
+﻿  SwFMOD.cpp
+  SwFMODCanvas.cpp
+  SwFMODDebug.cpp
+  SwFMODGeometry.cpp
+  SwFMODPlay.cpp
+  SwFMODRegister.cpp
+  SwFMODToStr.cpp
+  SwFMODUpdate.cpp

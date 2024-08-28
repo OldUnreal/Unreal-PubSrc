@@ -298,12 +298,14 @@ FPhysXActorRigidBody::~FPhysXActorRigidBody() noexcept(false)
 
 void FPhysXActorRigidBody::PhysicsTick(FLOAT DeltaTime)
 {
+	guard(FPhysXActorRigidBody::PhysicsTick);
 	if (!rbActor)
 		return;
 
 	// Make standing pawns add some weight ontop of this.
 	physx::PxRigidDynamic* dyn = reinterpret_cast<physx::PxRigidDynamic*>(rbActor);
-	AActor::GBasedListMutex.lock();
+	guardSlow(HandleBasedMass);
+	FScopeThread<FThreadLock> Lock(AActor::GBasedListMutex);
 	if (Actor->RealBasedActors)
 	{
 		physx::PxTransform T = dyn->getCMassLocalPose() * dyn->getGlobalPose();
@@ -334,7 +336,7 @@ void FPhysXActorRigidBody::PhysicsTick(FLOAT DeltaTime)
 			}
 		}
 	}
-	AActor::GBasedListMutex.unlock();
+	unguardSlow;
 
 	// Forces used by vehicles, keeps actor awake!
 	if (HasConstantForce)
@@ -346,6 +348,7 @@ void FPhysXActorRigidBody::PhysicsTick(FLOAT DeltaTime)
 	if (dyn->isSleeping())
 		return;
 
+#if 0 // Switched over to PxContactJoints
 	if (Repulsors && Repulsors->Num())
 	{
 		FScopeThread<FThreadLock> Scope(UPX_Repulsor::GRepulseMutex);
@@ -390,12 +393,14 @@ void FPhysXActorRigidBody::PhysicsTick(FLOAT DeltaTime)
 			}
 		}
 	}
+#endif
 
 	if (bHasGravity)
 		dyn->addForce(localGravity * DeltaTime, physx::PxForceMode::eVELOCITY_CHANGE, false);
 
 	if (bHasZoneVelocity)
 		dyn->addForce(GetDesiredZoneSpeed(ZoneSpeed * 5.f * DeltaTime, dyn), physx::PxForceMode::eVELOCITY_CHANGE, false);
+	unguard;
 }
 
 // Set/Get values.

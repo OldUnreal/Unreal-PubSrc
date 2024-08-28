@@ -82,5 +82,4 @@ defaultproperties
 	FadeOutDistance=(Min=50,Max=250)
 	bDirectional=True
 	WallHitMinZ=0.9
-	bNotifyPositionUpdate=true
 }

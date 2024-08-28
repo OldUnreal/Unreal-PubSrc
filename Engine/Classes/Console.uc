@@ -608,6 +608,19 @@ function InsertHistory( string Txt )
 		HistoryTop = HistoryCur - MaxHistory + 1;
 }
 
+// [227k] Localize errors to own language.
+event PreloginError( string ServerAddr, out string Error, string FailCode )
+{
+	if( FailCode=="MAX" )
+		Error = Class'GameInfo'.Default.MaxedOutMessage;
+	else if( FailCode=="MAXS" )
+		Error = Class'GameInfo'.Default.MaxedOutSpectatorsMsg;
+	else if( FailCode=="NEEDPW" )
+		Error = Class'GameInfo'.Default.NeedPassword;
+	else if( FailCode=="WRONGPW" )
+		Error = Class'GameInfo'.Default.WrongPassword;
+}
+
 //-----------------------------------------------------------------------------
 // State used while typing a command on the console.
 

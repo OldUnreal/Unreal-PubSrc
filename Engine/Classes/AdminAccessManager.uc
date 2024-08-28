@@ -35,11 +35,13 @@ function bool AtCapacity( bool bSpectator, out string Error )
 	if( bSpectator && (Level.Game.NumSpectators>=Level.Game.MaxSpectators) )
 	{
 		Error = Level.Game.MaxedOutSpectatorsMsg;
+		Level.Game.PreloginErrorCode = "MAXS";
 		return true;
 	}
 	else if( !bSpectator && Level.Game.MaxPlayers>0 && (Level.Game.NumPlayers>=Level.Game.MaxPlayers) )
 	{
 		Error = Level.Game.MaxedOutMessage;
+		Level.Game.PreloginErrorCode = "MAX";
 		return true;
 	}
 	return false;

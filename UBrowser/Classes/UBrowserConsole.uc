@@ -1,5 +1,12 @@
 class UBrowserConsole expands WindowConsole;
 
+event PreloginError( string ServerAddr, out string Error, string FailCode )
+{
+	Super.PreloginError(ServerAddr,Error,FailCode);
+	if( (FailCode=="NEEDPW" || FailCode=="WRONGPW" || Error==Class'GameInfo'.Default.NeedPassword || Error==Class'GameInfo'.Default.WrongPassword) && Root )
+		class'UBrowserJoinPW'.Static.ShowPasswordMenu(Root,Error,ServerAddr);
+}
+
 event bool KeyEvent( EInputKey Key, EInputAction Action, FLOAT Delta )
 {
 	local UWinInteraction I;
@@ -19,7 +26,6 @@ exec function ShowUBrowser()
 {
 	LaunchUWindow();
 }
-
 
 function LaunchUWindow()
 {

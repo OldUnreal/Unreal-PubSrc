@@ -85,7 +85,7 @@ public:
 	void reportError(physx::PxErrorCode::Enum code, const char* message, const char* file, int line)
 	{
 		if (!(code & physx::PxErrorCode::eDEBUG_WARNING) && line != 230 && line != 876 && line != 878 && line != 242 && line != 934) // Don't warn about large triangles in meshes nor convex mesh points being the same!
-			GWarn->Logf(PHYS_X_NAME TEXT(": %s (in %s, line %i"), appFromAnsi(message), appFromAnsi(file), line);
+			GWarn->Logf(PHYS_X_NAME TEXT(": %ls (in %ls, line %i"), appFromAnsi(message), appFromAnsi(file), line);
 	}
 };
 class UESimulatedCallback : public physx::PxSimulationEventCallback
@@ -254,8 +254,8 @@ void UPhysXPhysics::InitEngine()
 	GLog->Logf(NAME_PhysX, TEXT("Initializing PhysX physics engine (ver %i.%i.%i)!"), PX_PHYSICS_VERSION_MAJOR, PX_PHYSICS_VERSION_MINOR, PX_PHYSICS_VERSION_BUGFIX);
 
 	physx::PxTolerancesScale TolScale;
-	TolScale.length = 1;
-	TolScale.speed = 800;
+	TolScale.length = 70.f * UEScaleToPX;
+	TolScale.speed = 800.f * UEScaleToPX;
 	static UEAllocator phyAlloc;
 	static UEErrorNotify ErrNotify;
 	physx::PxFoundation* Fund = PxCreateFoundation(PX_PHYSICS_VERSION, phyAlloc, ErrNotify);
@@ -266,6 +266,13 @@ void UPhysXPhysics::InitEngine()
 	if (!CPUDistpatcher)
 		appErrorf(TEXT("PhysX: PxDefaultCpuDispatcherCreate failed!"));
 	DefaultMaterial = physXScene->createMaterial(0.5f, 0.5f, 0.5f);
+
+#if 0
+	if(!physx::PxInitVehicleSDK(*physXScene))
+		appErrorf(TEXT("PhysX: PxInitVehicleSDK failed!"));
+	physx::PxVehicleSetBasisVectors(physx::PxVec3(0.f, 0.f, 1.f), physx::PxVec3(1.f, 0.f, 0.f));
+	physx::PxVehicleSetUpdateMode(physx::PxVehicleUpdateMode::eVELOCITY_CHANGE);
+#endif
 
 	bEngineRunning = TRUE;
 
@@ -295,6 +302,7 @@ void UPhysXPhysics::ExitEngine()
 		CPUDistpatcher->release();
 		CPUDistpatcher = nullptr;
 	}
+	//physx::PxCloseVehicleSDK();
 	physXScene->release();
 	physXScene = NULL;
 	PxCloseExtensions();

@@ -25,7 +25,9 @@ var UWindowWindow		KeyFocusWindow;		// window with keyboard focus
 var MouseCursor			NormalCursor, MoveCursor, DiagCursor1, HandCursor, HSplitCursor, VSplitCursor, DiagCursor2, NSCursor, WECursor, WaitCursor;
 var bool				bQuickKeyEnable;
 var UWindowHotkeyWindowList	HotkeyWindows;
-var config float		GUIScale;
+var float		        GUIScale,GUIFontScale;
+var config float        ConfiguredGUIScale;
+var config bool         AutoGUIScale;
 var float				RealWidth, RealHeight;
 var Font				Fonts[10];
 var UWindowLookAndFeel	LooksAndFeels[20];
@@ -44,6 +46,7 @@ function BeginPlay()
 	Root = Self;
 	MouseWindow = Self;
 	KeyFocusWindow = Self;
+	GUIScale = 1.0;
 }
 
 function UWindowLookAndFeel GetLookAndFeel(String LFClassName)
@@ -73,6 +76,7 @@ function UWindowLookAndFeel GetLookAndFeel(String LFClassName)
 function Created()
 {
 	LookAndFeel = GetLookAndFeel(LookAndFeelClass);
+	SetScale(ConfiguredGUIScale);
 	SetupFonts();
 
 	NormalCursor.tex = Texture'MouseCursor';
@@ -426,10 +430,11 @@ function Resized()
 
 function SetScale(float NewScale)
 {
-	WinWidth = RealWidth / NewScale;
-	WinHeight = RealHeight / NewScale;
-
-	GUIScale = NewScale;
+    ConfiguredGUIScale = NewScale;
+	CalculateEffectiveGUIScale();
+	
+	WinWidth = RealWidth / GUIScale;
+	WinHeight = RealHeight / GUIScale;
 
 	ClippingRegion.X = 0;
 	ClippingRegion.Y = 0;
@@ -441,51 +446,118 @@ function SetScale(float NewScale)
 	Resized();
 }
 
-function SetupFonts()
+function CalculateEffectiveGUIScale()
 {
-	local bool bCustomLoader;
+	local float Scale;
+	local int ClosestSupportedScale;
 
-	bCustomLoader = (Localize("FontStyle","SmallFont","UWindow","")!="");
-	if (GUIScale == 2)
+	if (AutoGUIScale)
 	{
-		if ( bCustomLoader )
-		{
-			Fonts[F_Normal] = Font(DynamicLoadObject(Localize("FontStyle","MedFont","UWindow"), class'Font'));
-			Fonts[F_Bold] = Font(DynamicLoadObject(Localize("FontStyle","MedFontBold","UWindow"), class'Font'));
-			Fonts[F_Large] = Font(DynamicLoadObject(Localize("FontStyle","LargeFont","UWindow"), class'Font'));
-			Fonts[F_LargeBold] = Font(DynamicLoadObject(Localize("FontStyle","LargeFontBold","UWindow"), class'Font'));
-		}
-		else
-		{
-			Fonts[F_Normal] = Font(DynamicLoadObject("UWindowFonts.Tahoma20", class'Font'));
-			Fonts[F_Bold] = Font(DynamicLoadObject("UWindowFonts.TahomaB20", class'Font'));
-			Fonts[F_Large] = Font(DynamicLoadObject("UWindowFonts.Tahoma30", class'Font'));
-			Fonts[F_LargeBold] = Font(DynamicLoadObject("UWindowFonts.TahomaB30", class'Font'));
-		}
-	}
-	else if ( bCustomLoader )
-	{
-		Fonts[F_Normal] = Font(DynamicLoadObject(Localize("FontStyle","SmallFont","UWindow"), class'Font'));
-		Fonts[F_Bold] = Font(DynamicLoadObject(Localize("FontStyle","SmallFontBold","UWindow"), class'Font'));
-		Fonts[F_Large] = Font(DynamicLoadObject(Localize("FontStyle","MedFont","UWindow"), class'Font'));
-		Fonts[F_LargeBold] = Font(DynamicLoadObject(Localize("FontStyle","MedFontBold","UWindow"), class'Font'));
+		Scale = RealHeight / 720;
+
+		ClosestSupportedScale = int(Scale * 100.f);
+		
+		// make sure it's divisible by 25
+		ClosestSupportedScale -= ClosestSupportedScale % 25;
+		// clamp
+		ClosestSupportedScale = Max(Min(ClosestSupportedScale, 300), 100);
+
+		GUIScale = float(ClosestSupportedScale) / 100.0;
+		//Log("Calculated Effective GUI Scale:"@GUIScale);
 	}
 	else
 	{
-		Fonts[F_Normal] = Font(DynamicLoadObject("UWindowFonts.Tahoma10", class'Font'));
-		Fonts[F_Bold] = Font(DynamicLoadObject("UWindowFonts.TahomaB10", class'Font'));
-		Fonts[F_Large] = Font(DynamicLoadObject("UWindowFonts.Tahoma20", class'Font'));
-		Fonts[F_LargeBold] = Font(DynamicLoadObject("UWindowFonts.TahomaB20", class'Font'));
+		GUIScale = ConfiguredGUIScale;
+		//Log("Using Configured GUI Scale:"@GUIScale);
 	}
+}
+
+static final function Font GetLocaleFont( string FontID )
+{
+	return Font(DynamicLoadObject(Localize("FontStyle",FontID,"UWindow","UWindowFonts."$FontID), class'Font'));
+}
+function SetupFonts()
+{
+	local int i;
+
+	GUIFontScale = GUIScale;
+	if(GUIFontScale >= 3.f)
+	{
+		GUIFontScale /= 3.f;
+		Fonts[F_Normal] = GetLocaleFont("Tahoma30");
+		Fonts[F_Normal] = GetLocaleFont("Tahoma30");
+		Fonts[F_Bold] = GetLocaleFont("TahomaB30");
+		Fonts[F_Large] = GetLocaleFont("Tahoma40");
+		Fonts[F_LargeBold] = GetLocaleFont("TahomaB40");
+	}
+	else if(GUIFontScale >= 2.75)
+	{
+		GUIFontScale /= 2.75f;
+		Fonts[F_Normal] = GetLocaleFont("Tahoma27");
+		Fonts[F_Bold] = GetLocaleFont("TahomaB27");
+		Fonts[F_Large] = GetLocaleFont("Tahoma37");
+		Fonts[F_LargeBold] = GetLocaleFont("TahomaB37");
+	}
+	else if(GUIFontScale >= 2.5)
+	{
+		GUIFontScale /= 2.5;
+		Fonts[F_Normal] = GetLocaleFont("Tahoma25");
+		Fonts[F_Bold] = GetLocaleFont("TahomaB25");
+		Fonts[F_Large] = GetLocaleFont("Tahoma35");
+		Fonts[F_LargeBold] = GetLocaleFont("TahomaB35");
+	}
+	else if(GUIFontScale >= 2.25)
+	{
+		GUIFontScale /= 2.25;
+		Fonts[F_Normal] = GetLocaleFont("Tahoma22");
+		Fonts[F_Bold] = GetLocaleFont("TahomaB22");
+		Fonts[F_Large] = GetLocaleFont("Tahoma32");
+		Fonts[F_LargeBold] = GetLocaleFont("TahomaB32");
+	}
+	else if(GUIFontScale >= 2.f)
+	{
+		GUIFontScale /= 2.f;
+		Fonts[F_Normal] = GetLocaleFont("Tahoma20");
+		Fonts[F_Bold] = GetLocaleFont("TahomaB20");
+		Fonts[F_Large] = GetLocaleFont("Tahoma30");
+		Fonts[F_LargeBold] = GetLocaleFont("TahomaB30");
+	}
+	else if(GUIFontScale >= 1.75)
+	{
+		GUIFontScale /= 1.75f;
+		Fonts[F_Normal] = GetLocaleFont("Tahoma17");
+		Fonts[F_Bold] = GetLocaleFont("TahomaB17");
+		Fonts[F_Large] = GetLocaleFont("Tahoma27");
+		Fonts[F_LargeBold] = GetLocaleFont("TahomaB27");
+	}
+	else if(GUIFontScale >= 1.5)
+	{
+		GUIFontScale /= 1.5f;
+		Fonts[F_Normal] = GetLocaleFont("Tahoma15");
+		Fonts[F_Bold] = GetLocaleFont("TahomaB15");
+		Fonts[F_Large] = GetLocaleFont("Tahoma25");
+		Fonts[F_LargeBold] = GetLocaleFont("TahomaB25");
+	}
+	else if(GUIFontScale >= 1.25)
+	{
+		GUIFontScale /= 1.25f;
+		Fonts[F_Normal] = GetLocaleFont("Tahoma12");
+		Fonts[F_Bold] = GetLocaleFont("TahomaB12");
+		Fonts[F_Large] = GetLocaleFont("Tahoma22");
+		Fonts[F_LargeBold] = GetLocaleFont("TahomaB20");
+	}
+	else
+	{
+		Fonts[F_Normal] = GetLocaleFont("Tahoma10");
+		Fonts[F_Bold] = GetLocaleFont("TahomaB10");
+		Fonts[F_Large] = GetLocaleFont("Tahoma20");
+		Fonts[F_LargeBold] = GetLocaleFont("TahomaB20");
+	}
+	
 	/* Make sure none of the fonts are NULL once were here */
-	if ( !Fonts[F_Normal] )
-		Fonts[F_Normal] = Font'MedFont';
-	if ( !Fonts[F_Bold] )
-		Fonts[F_Bold] = Font'MedFont';
-	if ( !Fonts[F_Large] )
-		Fonts[F_Large] = Font'MedFont';
-	if ( !Fonts[F_LargeBold] )
-		Fonts[F_LargeBold] = Font'MedFont';
+	for( i=0; i<ArrayCount(Fonts); ++i )
+		if ( !Fonts[i] )
+			Fonts[i] = Font'MedFont';
 }
 
 function ChangeLookAndFeel(string NewLookAndFeel)
@@ -570,6 +642,7 @@ function SetContextHelp(string Text); // implemented in subclasses
 
 defaultproperties
 {
-	GUIScale=1
+	ConfiguredGUIScale=1
+	AutoGUIScale=true
 	bAllowConsole=True
 }

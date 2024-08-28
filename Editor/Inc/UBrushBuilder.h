@@ -1,0 +1,3 @@
+	//
+	UBrushBuilder() {}
+	virtual void Build();

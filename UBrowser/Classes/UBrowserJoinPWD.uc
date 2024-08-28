@@ -33,15 +33,14 @@ function Created()
 function Notify(UWindowDialogControl C, byte E)
 {
 	Super.Notify(C, E);
-	if ( !Grid )
-		return;
 	if ( (E==DE_EnterPressed && C==EditBox) || (E==DE_Click && C==JoinButton) )
 	{
-		if( JoiningServerInfo )
+		if ( Grid && JoiningServerInfo )
 			Grid.AddRecentServer(JoiningServerInfo);
-		Grid.JoinWithPassword(JoinAddress,EditBox.GetValue());
+		GetPlayerOwner().ClientTravel("unreal://"$JoinAddress$"?Password="$EditBox.GetValue(), TRAVEL_Absolute, false);
 		EditBox.SetValue("");
 		UWindowFramedWindow(GetParent(class'UWindowFramedWindow')).Close();
+		Root.Console.CloseUWindow();
 	}
 	else if ( E==DE_Click && C==SaveButton )
 		Class'Engine'.Static.StorePassword(JoinShortURL,EditBox.GetValue());

@@ -23,6 +23,11 @@ simulated function PostBeginPlay()
 {
 	if( Level.NetMode!=NM_DedicatedServer )
 	{
+		if( !Sequence )
+		{
+			Warn("No Material assigned to this trigger!");
+			return;
+		}
 		Sequence.Paused = true;
 		Sequence.Loop = false;
 		Sequence.CurrentTime = 0.f;
@@ -45,7 +50,7 @@ simulated final function FadeToMaterial( byte Num )
 		RepIndex = Num;
 		bForceNetUpdate = true;
 	}
-	if( Level.NetMode!=NM_DedicatedServer )
+	if( Level.NetMode!=NM_DedicatedServer && Sequence )
 	{
 		Sequence.Paused = false;
 		Sequence.CurrentTime = 0.f;

@@ -158,6 +158,7 @@ public:
 	UBOOL CreateJointHinge(const FJointHingeProps& Props) override;
 	UBOOL CreateJointSocket(const FJointSocketProps& Props) override;
 	UBOOL CreateConstriant(const FJointConstProps& Props) override;
+	PX_ContactConstraint* CreateContactJoint(PX_PhysicsObject* inObject, const FCoords& JointCoords) override;
 };
 
 struct FPhysXScene : public PX_SceneBase
@@ -372,6 +373,27 @@ struct FPhysXJoint : public PX_JointBase
 
 	void UpdateCoords(const FCoords& A, const FCoords& B);
 	void NoteJointBroken();
+};
+
+struct FPhysXContactJoint : public PX_ContactConstraint
+{
+	FPhysXContactJoint* NextContact;
+	physx::PxContactJoint* JointObj;
+	physx::PxVec3 WheelContactDir;
+	FLOAT WheelVelocity, WheelLatSlip, WheelLongSlip;
+	UBOOL HasPenetration;
+
+	FPhysXContactJoint(PX_PhysicsObject* inOwner, physx::PxContactJoint* Obj);
+	~FPhysXContactJoint() noexcept(false);
+
+	void DisableContact() override;
+	void SetContactPos(const FVector& Pos) override;
+	void SetContactNormal(const FVector& Norm) override;
+	void SetPenetration(FLOAT newPenetration) override;
+	void SetContact(const FVector& Pos, const FVector& Norm, FLOAT Penetration) override;
+	void UpdateCoords(const FCoords& A, const FCoords& B) override;
+	void SetWheelMode(UBOOL bEnable) override;
+	void SetWheelParms(const FVector& Dir, FLOAT ContactVel, FLOAT LatSlip, FLOAT LongSlip) override;
 };
 
 enum EShapeFlags : DWORD

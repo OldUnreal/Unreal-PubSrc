@@ -30,7 +30,7 @@ function Created()
 
 	MenuBar = UMenuMenuBar(CreateWindow(class'UMenuMenuBar', 50, 0, 500, 16));
 
-	BetaFont = Font(DynamicLoadObject("UWindowFonts.UTFont40", class'Font'));
+	BetaFont = Font(DynamicLoadObject("UWindowFonts.UTFont24", class'Font'));
 	Resized();
 }
 
@@ -83,20 +83,23 @@ function Resized()
 {
 	Super.Resized();
 
-	MenuBar.WinLeft = 0;;
-	MenuBar.WinTop = 0;
-	MenuBar.WinWidth = WinWidth;;
-	MenuBar.WinHeight = 16;
+	if( MenuBar )
+	{
+		MenuBar.WinLeft = 0;;
+		MenuBar.WinTop = 0;
+		MenuBar.WinWidth = WinWidth;
+		MenuBar.WinHeight = 16;
 
-	StatusBar.WinLeft = 0;
-	StatusBar.WinTop = WinHeight - StatusBar.WinHeight;
-	StatusBar.WinWidth = WinWidth;
+		StatusBar.WinLeft = 0;
+		StatusBar.WinTop = WinHeight - StatusBar.WinHeight;
+		StatusBar.WinWidth = WinWidth;
+	}
 }
 
 function DoQuitGame()
 {
 	MenuBar.SaveConfig();
-	if ( GetLevel().Game != None )
+	if( GetLevel().Game )
 	{
 		GetLevel().Game.SaveConfig();
 		GetLevel().Game.GameReplicationInfo.SaveConfig();
@@ -106,11 +109,13 @@ function DoQuitGame()
 
 function SetContextHelp(string Text)
 {
-	if (StatusBar != none)
+	if( StatusBar )
 		StatusBar.SetHelp(Text);
 }
 
 defaultproperties
 {
 	LookAndFeelClass="UMenu.UMenuGoldLookAndFeel"
+	ConfiguredGUIScale=1.0
+	AutoGUIScale=True
 }

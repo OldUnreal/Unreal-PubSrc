@@ -17,10 +17,6 @@ ANavigationPoint* APathNodeIterator::breathPathTo( ANavigationPoint* Start, APaw
 {
 	guard(APathNodeIterator::breathPathTo);
 
-	if (!bUPakBuild)
-	{
-		appErrorf(TEXT("Invalid system call"));
-	}
 	Start->visitedWeight = 0;
 	ANavigationPoint* currentnode = Start;
 	ANavigationPoint* nextnode = NULL;

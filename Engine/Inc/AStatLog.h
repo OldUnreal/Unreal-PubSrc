@@ -1,0 +1,2 @@
+	AStatLog() {}
+	void Destroy();

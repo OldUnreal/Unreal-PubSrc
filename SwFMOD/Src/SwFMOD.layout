@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<FileVersion major="1" minor="0" />
+	<ActiveTarget name="Debug Lin32" />
+	<File name="Inc/SwFMOD.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="23472" topLine="24" />
+		</Cursor>
+	</File>
+	<File name="Src/SwFMODToStr.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="7965" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Inc/SwFMODUtil.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1780" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Src/SwFMODCanvas.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="8076" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Src/SwFMODPlay.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="12307" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Src/SwFMOD.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="30307" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Inc/fmod.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="106626" topLine="1538" />
+		</Cursor>
+	</File>
+	<File name="Src/SwFMODDebug.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="6746" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Src/SwFMODRegister.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="6843" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Src/SwFMODUpdate.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="13288" topLine="174" />
+		</Cursor>
+	</File>
+	<File name="Src/SwFMODGeometry.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5510" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Inc/SwFMODMacro.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3207" topLine="0" />
+		</Cursor>
+	</File>
+</CodeBlocks_layout_file>

@@ -2,7 +2,7 @@
 // Actor Face Camera RI - Written by .:..:
 //=============================================================================
 class ActorFaceCameraRI extends RenderIterator
-			native;
+	native;
 
 var() bool bFaceYaw; // Should face with Yaw at camera.
 var() bool bFacePitch; // Should face with Pitch at camera

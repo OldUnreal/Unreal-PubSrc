@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="res">
+      <UniqueIdentifier>{e18582e8-5f47-44b1-a8b9-98adb6f44e1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="inc">
+      <UniqueIdentifier>{9405a0f5-ad5c-4dcd-9801-a29ab706d502}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{65fe9e5b-a004-4f0a-b20b-5862421de43f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SwFMOD.rc">
+      <Filter>res</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SwFMOD.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="SwFMODCanvas.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="SwFMODDebug.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="SwFMODGeometry.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="SwFMODPlay.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="SwFMODRegister.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="SwFMODToStr.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="SwFMODUpdate.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Inc\fmod.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\fmod_codec.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\fmod_dsp.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\fmod_errors.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\fmod_memoryinfo.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\fmod_output.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\fmodlinux.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\SwFMOD.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\SwFMODMacro.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\SwFMODToStr.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\SwFMODUtil.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

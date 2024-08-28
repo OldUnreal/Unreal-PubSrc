@@ -36,6 +36,11 @@ var() bool  bColored;
 var() bool  bStrictMerging; // 227j: This brush should be strictly merged with other geometry (can be used to avoid having builder make tiny gaps if there are many surfaces or edges parallel to each other).
 var() bool  bHintBrush; // 227k: This brush (preferably a sheet) should take priority when BSP splitting world on rebuild.
 
+// Dynamic BSP:
+var transient private Brush DynBspNext, FlushNext;
+var transient private int RenderLeaf;
+var transient private bool bDynBSPDirty;
+
 simulated function OnMirrorMode()
 {
 	PrePivot.Y *= -1.f;

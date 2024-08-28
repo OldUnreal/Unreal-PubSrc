@@ -1929,6 +1929,8 @@ state Waiting
 
 	function EnemyAcquired()
 	{
+		if( Physics==PHYS_Walking ) // Marco: Make sure flying pawns has time to change to PHYS_Flying incase they exit Acquisition state before movement physics change.
+			SetMovementPhysics();
 		GotoState('Acquisition', 'PlayOut');
 	}
 

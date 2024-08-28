@@ -494,6 +494,7 @@ function RenderUWindow( canvas Canvas )
 	Canvas.DrawColor.r = 255;
 	Canvas.DrawColor.g = 255;
 	Canvas.DrawColor.b = 255;
+	Canvas.FontScale = Root.GUIFontScale;
 
 	if (Viewport.bWindowsMouseAvailable && Root != None)
 	{
@@ -550,6 +551,7 @@ function RenderUWindow( canvas Canvas )
 	Root.WindowEvent(WM_Paint, Canvas, MouseX, MouseY, 0);
 	if (bUWindowActive || bQuickKeyEnable)
 		Root.DrawMouse(Canvas);
+	Canvas.FontScale = 1.f;
 }
 
 function Message( PlayerReplicationInfo PRI, coerce string Msg, name N )

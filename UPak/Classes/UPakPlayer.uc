@@ -186,12 +186,12 @@ state PlayerFrozen
 	{
 		return false;
 	}
-	function Fire( float Value )
+	function Fire( optional float Value )
 	{
 		if( Level.Game!=None && Level.Game.IsA( 'UPakTransitionInfo' ) )
 			ShowMenu();
 	}
-	function AltFire( float Value )
+	function AltFire( optional float Value )
 	{
 		if( Level.Game!=None && Level.Game.IsA( 'UPakTransitionInfo' ) )
 			ShowMenu();

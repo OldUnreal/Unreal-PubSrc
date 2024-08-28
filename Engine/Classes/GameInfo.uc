@@ -86,12 +86,15 @@ var localized string			WrongPassword;
 var localized string			NeedPassword;
 
 // 227 variables =========================================
-var const string				LastPreloginIP;		// Warning!!! Do not touch this variable if you want to keep your mod backwards compatible
-var const string				LastLoginPlayerNames;	// Use ConsoleCommand("GetPreloginAddress"); instead
-var const string				LastPreloginIdentity;
-var const string				LastPreloginIdent;
-var const string				LastDisconnectReason; // Most recent client disconnection reason.
-var() localized string MaleGender,FemaleGender;  // Gender for deathmessages
+var const transient string		LastPreloginIP;		// Warning!!! Do not touch this variable if you want to keep your mod backwards compatible
+var const transient string		LastLoginPlayerNames;	// Use ConsoleCommand("GetPreloginAddress"); instead
+var const transient string		LastPreloginIdentity;
+var const transient string		LastPreloginIdent;
+var const transient string		LastDisconnectReason; // Most recent client disconnection reason.
+var transient string			PreloginErrorCode; // [227k] Additional error code output parameter for prelogin error (can be NEEDPW/WRONGPW/MAX/MAXS).
+
+var() localized string			MaleGender,FemaleGender;  // Gender for deathmessages
+
 var GameRules GameRules;						// Mutate some game rules. Do *not* use this if you want your mod backwards compatible.
 var AdminAccessManager AccessManager;
 const ColorCodeNumber=27; // Text color code ID when drawing on Canvas.
@@ -761,9 +764,15 @@ event PreLogin
 			&&	(AdminPassword=="" || !(InPassword~=AdminPassword)) )
 	{
 		if ( InPassword == "" )
+		{
 			Error = NeedPassword;
+			PreloginErrorCode = "NEEDPW";
+		}
 		else
+		{
 			Error = WrongPassword;
+			PreloginErrorCode = "WRONGPW";
+		}
 	}
 }
 
@@ -808,9 +817,9 @@ event ULogPlayer( string Options, out string Error )
 	}
 
 	// Give gamerules an opportunity to modify this.
-	if ( GameRules!=None )
+	if ( GameRules )
 	{
-		for ( GR=GameRules; GR!=None; GR=GR.NextRules )
+		for ( GR=GameRules; GR; GR=GR.NextRules )
 			if ( GR.bNotifyLogin )
 				GR.OverridePrelogin(Options,PN,Error);
 	}

@@ -24,7 +24,7 @@ var transient const NavigationPoint prevOrdered;
 var transient const NavigationPoint startPath;
 var transient const NavigationPoint previousPath;
 var transient int cost; // added cost to visit this pathnode
-var() int ExtraCost; // Added extra cost to this path (cost is in UU distance scaling).
+var() int ExtraCost; // Added extra cost to this path (cost is in UU distance scaling, a value of over 1 million is considered blocked path).
 var transient private int PathSearchTag;
 
 var() byte PathDescription; // pointer to path description in zoneinfo LocationStrings array

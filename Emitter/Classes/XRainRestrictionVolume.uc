@@ -25,5 +25,4 @@ defaultproperties
 	CollisionHeight=22
 	DrawType=DT_Sprite
 	Texture=Texture'S_RainVolume'
-	bNotifyPositionUpdate=true
 }

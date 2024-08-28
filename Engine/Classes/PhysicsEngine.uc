@@ -48,4 +48,5 @@ cpptext
 	virtual UBOOL CreateJointHinge( const FJointHingeProps& Props ) { return FALSE; }
 	virtual UBOOL CreateJointSocket( const FJointSocketProps& Props ) { return FALSE; }
 	virtual UBOOL CreateConstriant( const FJointConstProps& Props ) { return FALSE; }
+	virtual PX_ContactConstraint* CreateContactJoint( PX_PhysicsObject* inObject, const FCoords& JointCoords ) { return NULL; }
 }

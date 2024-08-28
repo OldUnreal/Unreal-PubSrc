@@ -54,12 +54,23 @@ var UWindowHSliderControl BrightnessSlider;
 var localized string BrightnessText;
 var localized string BrightnessHelp;
 
-// GUI Scale
+// GUI Scale -- no longer used but retained for compatibility with menu-replacement mods
 var UWindowComboControl ScaleCombo;
 var localized string ScaleText;
 var localized string ScaleHelp;
 
 var localized string ScaleSizes[2];
+
+// Automatic GUI scaling
+var UWindowCheckbox AutoGUIScalingCheck;
+var localized string AutoGUIScalingText;
+var localized string AutoGUIScalingHelp;
+
+// GUI scale
+var UWindowHSliderControl GUIScalingSlider;
+var localized string GUIScalingText;
+var localized string GUIScalingHelp;
+
 
 // HUD Scale
 var localized string HUDScaleText;
@@ -313,14 +324,21 @@ function Created()
 	MouseSlider.SetFont(F_Normal);
 	ControlOffset += 25;
 
-	// GUI Scale
-	ScaleCombo = UWindowComboControl(CreateControl(class'UWindowComboControl', ControlLeft, ControlOffset, ControlWidth, 1));
-	ScaleCombo.SetText(ScaleText);
-	ScaleCombo.SetHelpText(ScaleHelp);
-	ScaleCombo.SetFont(F_Normal);
-	ScaleCombo.SetEditable(False);
-	ScaleCombo.AddItem(ScaleSizes[0], "10");
-	ScaleCombo.AddItem(ScaleSizes[1], "20");
+	// Automatic GUI scaling
+	AutoGUIScalingCheck = UWindowCheckbox(CreateControl(class'UWindowCheckbox', ControlLeft, ControlOffset, ControlWidth, 1));
+	AutoGUIScalingCheck.bChecked = false;
+	AutoGUIScalingCheck.SetText(AutoGUIScalingText);
+	AutoGUIScalingCheck.SetHelpText(AutoGUIScalingHelp);
+	AutoGUIScalingCheck.SetFont(F_Normal);
+	AutoGUIScalingCheck.Align = TA_Left;
+	ControlOffset += 25;
+
+	// GUI Scaling
+	GUIScalingSlider = UWindowHSliderControl(CreateControl(class'UWindowHSliderControl', ControlLeft, ControlOffset, ControlWidth, 1));
+	GUIScalingSlider.bNoSlidingNotify = True;
+	GUIScalingSlider.SetRange(100, 300, 25);
+	GUIScalingSlider.SetHelpText(GUIScalingHelp);
+	GUIScalingSlider.SetFont(F_Normal);
 	ControlOffset += 25;
 
 	GuiSkinCombo = UWindowComboControl(CreateControl(class'UWindowComboControl', ControlLeft, ControlOffset, ControlWidth, 1));
@@ -586,7 +604,11 @@ function LoadAvailableSettings()
 	Brightness = int(float(P.ConsoleCommand("get ini:Engine.Engine.ViewportManager Brightness")) * 10);
 	BrightnessSlider.SetValue(Brightness);
 	MouseSlider.SetValue(Root.Console.MouseScale * 100);
-	ScaleCombo.SetSelectedIndex(Max(ScaleCombo.FindItemIndex2(string(int(Root.GUIScale*10))), 0));
+
+	GUIScalingSlider.SetValue(Max(Min(Root.ConfiguredGUIScale*100, 300), 100));
+	UpdateScaleUI();
+	AutoGUIScalingCheck.bChecked = !Root.AutoGUIScale;
+
 	MinFramerateEdit.EditBox.Value = string(int(P.ConsoleCommand("get ini:Engine.Engine.ViewportManager MinDesiredFrameRate")));
 	ShowDecalsCheck.bChecked = bool(P.ConsoleCommand("get ini:Engine.Engine.ViewportManager Decals"));
 	ShowSpecularCheck.bChecked = !P.Level.bDisableSpeclarLight;
@@ -995,7 +1017,6 @@ function BeforePaint(Canvas C, float X, float Y)
 	TextureDetailCombo.GetMinTextAreaWidth(C, LabelTextAreaWidth);
 	SkinDetailCombo.GetMinTextAreaWidth(C, LabelTextAreaWidth);
 	BrightnessSlider.GetMinTextAreaWidth(C, LabelTextAreaWidth);
-	ScaleCombo.GetMinTextAreaWidth(C, LabelTextAreaWidth);
 	MouseSlider.GetMinTextAreaWidth(C, LabelTextAreaWidth);
 	GuiSkinCombo.GetMinTextAreaWidth(C, LabelTextAreaWidth);
 	PawnShadowCombo.GetMinTextAreaWidth(C, LabelTextAreaWidth);
@@ -1064,9 +1085,12 @@ function BeforePaint(Canvas C, float X, float Y)
 	BrightnessSlider.SliderWidth = EditAreaWidth;
 	BrightnessSlider.WinLeft = ControlLeft;
 
-	ScaleCombo.SetSize(ControlWidth, 1);
-	ScaleCombo.WinLeft = ControlLeft;
-	ScaleCombo.EditBoxWidth = EditAreaWidth;
+	AutoGUIScalingCheck.SetSize(CheckboxWidth, 1);
+	AutoGUIScalingCheck.WinLeft = ControlLeft;
+
+	GUIScalingSlider.SetSize(ControlWidth, 1);
+	GUIScalingSlider.SliderWidth = EditAreaWidth;
+	GUIScalingSlider.WinLeft = ControlLeft;
 
 	MouseSlider.SetSize(ControlWidth, 1);
 	MouseSlider.SliderWidth = EditAreaWidth;
@@ -1169,7 +1193,8 @@ function Notify(UWindowDialogControl C, byte E)
 		case BrightnessSlider:
 			BrightnessChanged();
 			break;
-		case ScaleCombo:
+		case AutoGUIScalingCheck:
+		case GUIScalingSlider:
 			ScaleChanged();
 			break;
 		case MouseSlider:
@@ -1353,9 +1378,24 @@ function ScaleChanged()
 {
 	if (bInitialized)
 	{
-		Root.SetScale(float(ScaleCombo.GetValue2())/10);
+		UpdateScaleUI();
+		Root.AutoGUIScale = !AutoGUIScalingCheck.bChecked;
+		Root.SetScale(GUIScalingSlider.Value / 100);
 		Root.SaveConfig();
 	}
+}
+
+final function UpdateScaleUI()
+{
+	local string S;
+	
+	S = string(GUIScalingSlider.Value/100.f);
+	S = Left(S,Len(S)-4);
+	while( Right(S,1)=="0" )
+		S = Left(S,Len(S)-1);
+	if( Right(S,1)=="." )
+		S = Left(S,Len(S)-1);
+	GUIScalingSlider.SetText(GUIScalingText$" ("$S$"x)");
 }
 
 function MouseChanged()
@@ -1758,4 +1798,9 @@ defaultproperties
 
 	LightLODText="Lightmap LOD"
 	LightLODHelp="Change the lighting LOD aggressiveness on world (lower meaning it will cut down light framerate on complex scenes)."
+
+	AutoGUIScalingText="Override GUI Scaling"
+	AutoGUIScalingHelp="If checked, you can control the scale of the menu and in-game windows."
+	GUIScalingText="GUI Scaling Factor"
+	GUIScalingHelp="Adjust the scale of the user interface."
 }

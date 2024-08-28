@@ -100,10 +100,7 @@ var vector       BasePos, OldPos, OldPrePivot, SavedPos;
 var rotator      BaseRot, OldRot, SavedRot;
 var transient const array<int> NotifyLightMaps;
 var StaticLightData StaticLightD;
-var transient private Mover DynBspNext, FlushNext;
 var Actor StuckActor; // Mover will ignore this actor and attempt to push it out.
-var transient private int RenderLeaf;
-var transient private bool bDynBSPDirty;
 
 // AI related
 var       NavigationPoint  myMarker;
@@ -1380,6 +1377,5 @@ defaultproperties
 	RemoteRole=ROLE_SimulatedProxy
 	CollisionFlag=COLLISIONFLAG_Movers
 	NetUpdateFrequency=2
-	bNotifyPositionUpdate=true
 	bReplicateSimMove=true
 }

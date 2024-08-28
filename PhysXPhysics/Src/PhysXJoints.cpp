@@ -255,3 +255,119 @@ UBOOL UPhysXPhysics::CreateConstriant(const FJointConstProps& Props)
 	return FALSE;
 	unguard;
 }
+
+FPhysXContactJoint::FPhysXContactJoint(PX_PhysicsObject* inOwner, physx::PxContactJoint* Obj)
+	: PX_ContactConstraint(inOwner), JointObj(Obj), HasPenetration(FALSE)
+{
+	STAT(++GPhysXStats.JointObjCount.Count);
+	Obj->userData = this;
+}
+FPhysXContactJoint::~FPhysXContactJoint() noexcept(false)
+{
+	guard(FPhysXContactJoint::~FPhysXContactJoint);
+	STAT(--GPhysXStats.JointObjCount.Count);
+	FINISH_PHYSX_THREAD;
+	JointObj->release();
+	unguard;
+}
+
+void FPhysXContactJoint::DisableContact()
+{
+	guardSlow(FPhysXContactJoint::DisableContact);
+	if (HasPenetration)
+	{
+		FINISH_PHYSX_THREAD;
+		JointObj->setPenetration(0.f);
+		JointObj->setContactNormal(physx::PxVec3(0.f, 0.f, -1.f));
+		HasPenetration = FALSE;
+	}
+	unguardSlow;
+}
+void FPhysXContactJoint::SetContactPos(const FVector& Pos)
+{
+	guardSlow(FPhysXContactJoint::SetContactPos);
+	FINISH_PHYSX_THREAD;
+	JointObj->setContact(UEVectorToPX(Pos));
+	unguardSlow;
+}
+void FPhysXContactJoint::SetContactNormal(const FVector& Norm)
+{
+	guardSlow(FPhysXContactJoint::SetContactNormal);
+	FINISH_PHYSX_THREAD;
+	JointObj->setContactNormal(UENormalToPX(Norm));
+	unguardSlow;
+}
+void FPhysXContactJoint::SetPenetration(FLOAT newPenetration)
+{
+	guardSlow(FPhysXContactJoint::SetPenetration);
+	FINISH_PHYSX_THREAD;
+	if (newPenetration < 0.f)
+	{
+		if (HasPenetration)
+		{
+			JointObj->setPenetration(0.f);
+			JointObj->setContactNormal(physx::PxVec3(0.f, 0.f, -1.f));
+			HasPenetration = FALSE;
+		}
+	}
+	else
+	{
+		JointObj->setPenetration(-newPenetration * UEScaleToPX);
+		HasPenetration = TRUE;
+	}
+	unguardSlow;
+}
+void FPhysXContactJoint::UpdateCoords(const FCoords& A, const FCoords& B)
+{
+	guardSlow(FPhysXContactJoint::SetJointCoords);
+	FINISH_PHYSX_THREAD;
+	JointObj->setLocalPose(physx::PxJointActorIndex::eACTOR0, UECoordsToPX(A));
+	unguardSlow;
+}
+void FPhysXContactJoint::SetContact(const FVector& Pos, const FVector& Norm, FLOAT Penetration)
+{
+	guardSlow(FPhysXContactJoint::SetContact);
+	FINISH_PHYSX_THREAD;
+	JointObj->setContact(UEVectorToPX(Pos));
+	JointObj->setContactNormal(UENormalToPX(Norm));
+	JointObj->setPenetration(-Penetration * UEScaleToPX);
+	HasPenetration = TRUE;
+	unguardSlow;
+}
+
+void FPhysXContactJoint::SetWheelMode(UBOOL bEnable)
+{
+	guardSlow(FPhysXContactJoint::SetWheelMode);
+	if (WheelMode == bEnable) return;
+	FINISH_PHYSX_THREAD;
+	WheelMode = bEnable;
+	unguardSlow;
+}
+void FPhysXContactJoint::SetWheelParms(const FVector& Dir, FLOAT ContactVel, FLOAT LatSlip, FLOAT LongSlip)
+{
+	guardSlow(FPhysXContactJoint::SetWheelParms);
+	FINISH_PHYSX_THREAD;
+	WheelMode = TRUE;
+	WheelContactDir = UENormalToPX(Dir);
+	WheelVelocity = ContactVel;
+	WheelLatSlip = LatSlip;
+	WheelLongSlip = LongSlip;
+	unguardSlow;
+}
+
+PX_ContactConstraint* UPhysXPhysics::CreateContactJoint(PX_PhysicsObject* inObject, const FCoords& JointCoords)
+{
+	guard(UPhysXPhysics::CreateContactJoint);
+	physx::PxRigidActor* A = GetRigidActor(inObject);
+	if (!A)
+		return nullptr;
+
+	FINISH_PHYSX_THREAD;
+	physx::PxContactJoint* con = physx::PxContactJointCreate(PxGetPhysics(), A, UECoordsToPX(JointCoords), nullptr, physx::PxTransform(physx::PxIDENTITY::PxIdentity));
+	con->setResititution(0.05f);
+	con->setBounceThreshold(0.f);
+	if (!con)
+		return nullptr;
+	return new FPhysXContactJoint(inObject, con);
+	unguard;
+}

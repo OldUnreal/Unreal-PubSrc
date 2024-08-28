@@ -51,7 +51,6 @@ defaultproperties
 	BoxMax=(X=200,Y=200,Z=200)
 	SphereSize=250
 	CylinderSize=250
-	bNotifyPositionUpdate=true
 	bSpecialBrushActor=true
 	NetUpdateFrequency=8
 	bOnlyDirtyReplication=false
